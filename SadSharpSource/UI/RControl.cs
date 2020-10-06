@@ -5,6 +5,8 @@ namespace SadSharp.Game.Controls
 {
     public class RControl:SadConsole.Console
     {
+        public object Data { get; set; }
+
         public RControl(int width, int height) : base(width, height){}
 
         public RControl Under(SadConsole.Console other, int dy)

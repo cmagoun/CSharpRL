@@ -143,6 +143,7 @@ namespace CsEcs
                     if (!index.ContainsKey(indexable.IndexKey)) index.Add(indexable.IndexKey, new List<string>());
                     index[indexable.IndexKey].Add(entityId);
                 }
+                component.OnAdd();
 
             } else
             {
@@ -155,8 +156,9 @@ namespace CsEcs
                     if (index.ContainsKey(indexable.IndexKey)) index[indexable.IndexKey].Remove(entityId);
                 }
 
+                oldComponent.OnDelete();
                 EntitiesToComponents[entityId][component.CName] = component;
-
+                
                 if (ComponentIndexes.ContainsKey(component.CName))
                 {
                     var index = ComponentIndexes[component.CName];
@@ -164,6 +166,7 @@ namespace CsEcs
                     if(!index.ContainsKey(indexable.IndexKey)) index.Add(indexable.IndexKey, new List<string>());
                     index[indexable.IndexKey].Add(entityId);
                 }
+                component.OnAdd();
             }
         }
 
@@ -362,6 +365,8 @@ namespace CsEcs
                 var indexable = (IIndexable) comp;
                 if (index.ContainsKey(indexable.IndexKey)) index[indexable.IndexKey].Remove(entityId);
             }
+
+            comp.OnDelete();
 
             comp.MyEcs = null;    
             comp = null;

@@ -27,12 +27,18 @@ namespace SadSharp.Game
             BColor = param.BColor;
             if (param.Font != null) Font = param.Font;
 
-            MouseButtonClicked += (sender, args) => OnClick?.Invoke(sender, args);
+            MouseButtonClicked += ButtonClicked;
             MouseEnter += (sender, args) => _mouseOver = true;
             MouseExit += (sender, args) => _mouseOver = false;
         }
 
+        protected virtual void ButtonClicked(object sender, SadConsole.Input.MouseEventArgs e)
+        {
+            OnClick?.Invoke(sender, e);
+        }
+
         public Button(string text, ButtonParams param = null):this(text, 0, 0, param){}
+
 
         public override void Draw(TimeSpan timeElapsed)
         {

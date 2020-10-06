@@ -16,8 +16,8 @@ namespace CsEcs
 
         //I am trying to avoid the need for these by
         //having no meaningful (game logic) behavior in the components
-        //void OnAdd();
-        //void OnDelete();
+        void OnAdd();
+        void OnDelete();
         //void OnEdit();
     }
 
@@ -51,6 +51,9 @@ namespace CsEcs
                 index[newValues.IndexKey].Add(EntityId);
             }
         }
+
+        public virtual void OnAdd() { }
+        public virtual void OnDelete() { }
 
 
         public abstract IComponent Copy();
