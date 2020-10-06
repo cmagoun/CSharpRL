@@ -1,0 +1,11 @@
+.vs/
+EasyComponentsSource/obj/Debug/netstandard2.0/EasyComponents.dll
+EasyComponentsSource/obj/
+EasyComponentsTests/bin/Debug/
+EasyComponentsTests/obj/
+ReferenceGame/bin/
+ReferenceGame/obj/
+SadSharpSource/obj/
+SadSharpTests/bin/
+SadSharpTests/obj/
+SadSharpSource/bin/
