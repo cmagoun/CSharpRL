@@ -87,5 +87,14 @@ namespace Tests
             Assert.AreEqual(4407, Roller.Next(1, 10001));
             Assert.AreEqual(18, Roller.Next("3d20"));
         }
+
+        [Test]
+        public void RollerCanSubtractFromDieExpression()
+        {
+            Roller.Create();
+
+            Assert.AreEqual(1, Roller.Next("2d1-1"));
+            Assert.AreEqual(10, Roller.Next("100d1-90"));
+        }
     }
 }

@@ -12,17 +12,16 @@ namespace SadSharp.MapCreators
         None
     };
 
+    //This is bad because I am creating the ECS in here... not good
+    //We are going to inject the ecs... which will break our Reference game?
     public static class BasicMapCreator
     {
-        public static MapInfo CreateArena(string name, MapParameters param)
+        public static MapInfo CreateArena(string name, MapParameters param, Ecs ecs)
         {
             var mapName = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString() : name;
 
             var strategy = new BorderOnlyMapCreationStrategy<Map<RogueCell>, RogueCell>(param.Width, param.Height);
             var map = Map.Create(strategy);
-
-            var ecs = new Ecs(mapName);
-            ecs.AddIndex("PositionComponent");
 
             var mapInfo = new MapInfo(mapName, map, ecs, param);
 

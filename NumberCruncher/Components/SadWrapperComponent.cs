@@ -10,7 +10,7 @@ using System.Linq;
 namespace ReferenceGame.Components
 {
     //This is an experiment to see if we can wrap SadConsole.Entity
-    public class SadWrapperComponent : Component<SadWrapperEdit>
+    public class SadWrapperComponent : Component<SadWrapperEdit>, IIndexable
     {
         public override Type MyType => typeof(SadWrapperComponent);
         public int X { get; private set; }
@@ -24,6 +24,8 @@ namespace ReferenceGame.Components
         public Color BColor { get; private set; }
         public Color DrawBColor { get; private set; }
         public SadConsole.Entities.Entity SadEntity { get; private set; }
+
+        public string IndexKey => $"{X}/{Y}";
 
         private int _offset;
         private GameConsole _console;
@@ -125,7 +127,7 @@ namespace ReferenceGame.Components
         }
     }
 
-    public class SadWrapperEdit
+    public class SadWrapperEdit:IIndexable
     {
         public int? X { get; set; }
         public int? Y { get; set; }
@@ -139,6 +141,8 @@ namespace ReferenceGame.Components
         public Color? DrawFColor { get; set; }
         public Color? BColor { get; set; }
         public Color? DrawBColor { get; set; }
+
+        public string IndexKey => $"{X}/{Y}";
 
         public static SadWrapperEdit AnimatePosition(double x, double y)
         {

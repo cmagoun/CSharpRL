@@ -3,9 +3,7 @@ using NumberCruncher.Components;
 using NumberCruncher.Modes.MainMap;
 using NumberCruncher.Systems;
 using ReferenceGame.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SadSharp.Helpers;
 
 namespace NumberCruncher.Behaviors
 {
@@ -17,38 +15,29 @@ namespace NumberCruncher.Behaviors
             var mresult = MoveResult.Blocked;
             var kb = game.KeyboardState;
 
-            if (kb.IsKeyPressed(Keys.NumPad5))
-            {
-                return MoveResult.Done();
-            }
+            var from = sad.ToXnaPoint();
 
+            if (kb.IsKeyPressed(Keys.NumPad8)) mresult = MoveSystem.TryMove(entityId, from, from.North(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad2)) mresult = MoveSystem.TryMove(entityId, from, from.South(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad6)) mresult = MoveSystem.TryMove(entityId, from, from.East(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad4)) mresult = MoveSystem.TryMove(entityId, from, from.West(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad9)) mresult = MoveSystem.TryMove(entityId, from, from.NorthEast(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad3)) mresult = MoveSystem.TryMove(entityId, from, from.SouthEast(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad1)) mresult = MoveSystem.TryMove(entityId, from, from.SouthWest(), game.Ecs, game.Terrain);
+            if (kb.IsKeyPressed(Keys.NumPad7)) mresult = MoveSystem.TryMove(entityId, from, from.NorthWest(), game.Ecs, game.Terrain);
 
+            if (kb.IsKeyPressed(Keys.D1)) StrengthSystem.ChangeStrength(Program.Player, 1, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D2)) StrengthSystem.ChangeStrength(Program.Player, 2, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D3)) StrengthSystem.ChangeStrength(Program.Player, 3, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D4)) StrengthSystem.ChangeStrength(Program.Player, 4, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D5)) StrengthSystem.ChangeStrength(Program.Player, 5, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D6)) StrengthSystem.ChangeStrength(Program.Player, 6, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D7)) StrengthSystem.ChangeStrength(Program.Player, 7, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D8)) StrengthSystem.ChangeStrength(Program.Player, 8, game.Ecs);
+            if (kb.IsKeyPressed(Keys.D9)) StrengthSystem.ChangeStrength(Program.Player, 9, game.Ecs);
 
             return mresult;
         }
     }
 
-
-    //public MoveResult TakeTurn(string entityId, MapMode mm)
-    //{
-
-    //    var ppos = mm.Ecs.Get<EntityWrapperComponent>(mm.CurrentActor);
-    //    var mresult = new MoveResult(MoveStatus.Blocked);
-    //    var kb = mm.KeyboardState;
-    //    var actor = mm.CurrentActor;
-
-    //    if (kb.IsKeyPressed(Keys.Enter)) return MoveResult.Done();
-
-    //    if (kb.IsKeyPressed(Keys.NumPad8)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(0, -1), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad6)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(1, 0), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad2)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(0, 1), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad4)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(-1, 0), mm);
-
-    //    if (kb.IsKeyPressed(Keys.NumPad7)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(-1, -1), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad9)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(1, -1), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad3)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(1, 1), mm);
-    //    if (kb.IsKeyPressed(Keys.NumPad1)) mresult = EntityMoveSystem.TryMove(actor, ppos.ToXnaPoint(), ppos.ToXnaPoint(-1, 1), mm);
-
-    //    return mresult;
-    //}
 }

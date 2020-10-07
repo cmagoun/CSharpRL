@@ -1,6 +1,7 @@
 ﻿using CsEcs;
 using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
+using NumberCruncher.Systems;
 using SadConsole.Input;
 using SadSharp.Game;
 using System;
@@ -27,7 +28,7 @@ namespace NumberCruncher.Modes.MainMap
         private void Button_OnClick(int strengthValue)
         {
             var mode = (MainLoopMode)GameMode;
-            mode.ChangeStrength(strengthValue);
+            StrengthSystem.ChangeStrength(Program.Player, strengthValue, mode.Ecs);
         }
     }
 
@@ -53,7 +54,7 @@ namespace NumberCruncher.Modes.MainMap
 
         public override void Draw(TimeSpan timeElapsed)
         {
-            BColor = _ecs.Get<StrengthSlotsComponent>("PLAYER").IsReady(_strength)
+            BColor = _ecs.Get<StrengthSlotsComponent>(Program.Player).IsReady(_strength)
                 ? Color.LightGreen
                 : Color.OrangeRed;
 

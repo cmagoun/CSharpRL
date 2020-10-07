@@ -92,11 +92,17 @@ namespace SadSharp.Helpers
 
         private static int RollExpression(string diceString)
         {
-            //now I have 3d6+7;
-            var aExpr = diceString.Split('+');
+            //now I have 3d6+7 or 2d4-1;
+            var op = diceString.Contains('+')
+                ? '+'
+                : diceString.Contains('-')
+                    ? '-'
+                    : 'x';
+        
+            var aExpr = diceString.Split(op);
 
             var result = aExpr.Length > 1
-                ? int.Parse(aExpr[1])
+                ? int.Parse(aExpr[1]) * (op == '-' ? -1 : 1)
                 : 0;
 
             var aParsed = aExpr[0].Split('d');

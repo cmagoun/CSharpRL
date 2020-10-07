@@ -10,6 +10,7 @@ namespace NumberCruncher
     {
         public const int Width = 80;
         public const int Height = 40;
+        public const string Player = "PLAYER";
         public static RGame Game;
         private static string Font_C64 = "Fonts/C64.font";
 

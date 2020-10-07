@@ -12,6 +12,8 @@ using SadConsole.Input;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Keyboard = SadConsole.Input.Keyboard;
@@ -54,6 +56,9 @@ namespace NumberCruncher.Modes.MainMap
             RefreshScore = 0;
             Level = 1;
             CurrentActor = "";
+
+            Ecs = new Ecs("NumberCruncher");
+            Ecs.AddIndex("SadWrapperComponent");
             
             //This order is clunky because I need a reference to the console
             //upon which to place the entities
@@ -72,13 +77,13 @@ namespace NumberCruncher.Modes.MainMap
 
         public void ChangeStrength(int newStrength)
         {
-            var comp = Ecs.Get<StrengthComponent>("PLAYER");
-            var slots = Ecs.Get<StrengthSlotsComponent>("PLAYER");
+            var comp = Ecs.Get<StrengthComponent>(Program.Player);
+            var slots = Ecs.Get<StrengthSlotsComponent>(Program.Player);
             
             if(slots.IsReady(newStrength))
             {
                 comp.DoEdit(new IntEdit(newStrength));
-                var sad = Ecs.Get<SadWrapperComponent>("PLAYER");
+                var sad = Ecs.Get<SadWrapperComponent>(Program.Player);
                 sad.DoEdit(SadWrapperEdit.ChangeGlyph(Glyphs.Digit(newStrength)));
             }
         }
@@ -93,26 +98,38 @@ namespace NumberCruncher.Modes.MainMap
 
         private void CreateArena()
         {
-            var mapInfo = BasicMapCreator.CreateArena("MAP", new MapParameters { Width = 60, Height = 30 });
+            var mapInfo = BasicMapCreator.CreateArena("MAP", new MapParameters { Width = 60, Height = 30 }, Ecs);
             Terrain = mapInfo.Map;
-            Ecs = mapInfo.Ecs;
         }
 
         private void CreateEnemies(int level, GameConsole console)
+        {
+            var numEnemies = Roller.Next($"2d4+{Math.Min(level-1, 20)}");
+            for(var index = 0; index < numEnemies; index ++)
+            {
+                CreateEnemy(console);
+            }
+        }
+
+        private void CreateEnemy(GameConsole console)
         {
             var player = Ecs.Get<SadWrapperComponent>("PLAYER");
             var possible = Terrain.GetAllCells().Where(c => c.IsWalkable);
 
             var startPoint = new Point(player.X, player.Y);
-            while(startPoint.MDistance(player.ToXnaPoint()) < 4)
+
+            while (startPoint.MDistance(player.ToXnaPoint()) < 4
+                || Ecs.EntitiesInIndex("SadWrapperComponent", startPoint.ToKey()).Any())
             {
                 var startSpace = possible.PickRandom();
-                startPoint = new Point(startSpace.X, startSpace.Y);
-                
+                startPoint = new Point(startSpace.X, startSpace.Y);          
             }
 
+            var strength = Roller.Next("2d5-1");
+
             Ecs.New()
-                .Add(new SadWrapperComponent(console, startPoint.X, startPoint.Y, Glyphs.X, Color.Red, Color.Black))
+                .Add(new SadWrapperComponent(console, startPoint.X, startPoint.Y, Glyphs.Digit(strength), Color.Red, Color.Black))
+                .Add(new StrengthComponent(strength))
                 .Add(new ActionPointsComponent(1.0))
                 .Add(new BehaviorComponent(new RandomWalkBehavior()));
         }
@@ -120,7 +137,7 @@ namespace NumberCruncher.Modes.MainMap
         private void CreatePlayer(GameConsole console)
         {
             var startSpace = Terrain.GetAllCells().Where(c => c.IsWalkable).PickRandom();
-            Ecs.New("PLAYER")
+            Ecs.New(Program.Player)
                 .Add(new StrengthComponent(1))
                 .Add(new StrengthSlotsComponent())
                 .Add(new SadWrapperComponent(console, startSpace.X, startSpace.Y, Glyphs.Digit(1), Color.CornflowerBlue, Color.White))
@@ -166,14 +183,14 @@ namespace NumberCruncher.Modes.MainMap
                     return;
                 }
 
-                if (CurrentActor == "PLAYER") continue;
+                if (CurrentActor == Program.Player) continue;
 
                 var mresult = MoveResult.Continue;
                 while (mresult?.Status != MoveStatus.Done)
                 {
                     mresult = ResolveTurn();
                 }
-            } while (CurrentActor != "PLAYER");
+            } while (CurrentActor != Program.Player);
 
             ChangeState(InternalState.PlayerTurn);
         }
