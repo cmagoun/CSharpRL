@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
-using ReferenceGame.Components;
 
 namespace ReferenceGame.Modes.Entity
 {

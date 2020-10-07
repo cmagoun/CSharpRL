@@ -1,7 +1,11 @@
 ﻿using CsEcs;
 using NumberCruncher.Animation;
+using NumberCruncher.Components;
 using RogueSharp;
+using SadSharp.Helpers;
 using SadSharp.MapCreators;
+using System.Collections.Generic;
+using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace NumberCruncher.Systems
@@ -14,7 +18,10 @@ namespace NumberCruncher.Systems
 
         public static MoveResult TryMove(string entityId, Point from, Point to, Ecs ecs, Map<RogueCell> terrain)
         {
-            var result = CheckForBlockedSpace(to, terrain);
+            var onSpace = ecs.EntitiesInIndex(Program.SadWrapper, to.ToKey());
+
+            var result = CheckForBlockedSpace(to, terrain)
+                ?? CheckForBumpTrigger(entityId, onSpace, ecs);
 
             if (result != MoveResult.Continue) return result;
 
@@ -23,7 +30,7 @@ namespace NumberCruncher.Systems
             return result;
         }
 
-        public static MoveResult CheckForBlockedSpace(Point to, Map<RogueCell>terrain)
+        private static MoveResult CheckForBlockedSpace(Point to, Map<RogueCell>terrain)
         {
             var walkable = terrain.GetCell(to.X, to.Y).IsWalkable;
 
@@ -31,6 +38,18 @@ namespace NumberCruncher.Systems
                 ? MoveResult.Blocked
                 : MoveResult.Continue;
         }
+
+        private static MoveResult CheckForBumpTrigger(string entity, List<string>onSpace, Ecs ecs )
+        {
+            //only take the first bumper based on order?
+            var bumper = ecs
+                .GetComponents<BumpTriggerComponent>(onSpace.ToArray())
+                .OrderBy(b => b.Order)
+                .FirstOrDefault();
+
+            return bumper?.Interaction?.Activate(entity, bumper.EntityId, ecs);
+        }
+
         public static MoveResult DoMove(string entityId, Point from, Point to, Ecs ecs)
         {
             ecs.AddComponent(

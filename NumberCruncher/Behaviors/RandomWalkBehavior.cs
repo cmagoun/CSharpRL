@@ -2,7 +2,6 @@
 using NumberCruncher.Components;
 using NumberCruncher.Modes.MainMap;
 using NumberCruncher.Systems;
-using ReferenceGame.Components;
 using SadSharp.Helpers;
 
 namespace NumberCruncher.Behaviors

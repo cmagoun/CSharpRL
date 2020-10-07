@@ -1,7 +1,6 @@
 ﻿using CsEcs;
 using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
-using ReferenceGame.Components;
 using System;
 using System.Linq;
 

@@ -7,7 +7,7 @@ using SadSharp.Helpers;
 using System;
 using System.Linq;
 
-namespace ReferenceGame.Components
+namespace NumberCruncher.Components
 {
     //This is an experiment to see if we can wrap SadConsole.Entity
     public class SadWrapperComponent : Component<SadWrapperEdit>, IIndexable
@@ -59,7 +59,7 @@ namespace ReferenceGame.Components
 
             SadEntity = new SadConsole.Entities.Entity(FColor, BColor, GlyphIndex);
             SadEntity.UsePixelPositioning = true;
-            SadEntity.Position = new Point( (int)(DrawX * 16) + _offset, (int)(DrawY * 16) + _offset);
+            SadEntity.Position = new Point((int)(DrawX * 16) + _offset, (int)(DrawY * 16) + _offset);
 
             //SadEntity.Components.Add(new EntityViewSyncComponent());
 
@@ -90,30 +90,30 @@ namespace ReferenceGame.Components
             GlyphIndex = values?.GlyphIndex ?? GlyphIndex;
             DrawGlyphIndex = values?.DrawGlyphIndex ?? DrawGlyphIndex;
 
-            if(values?.DrawX != null || values?.DrawY != null)
+            if (values?.DrawX != null || values?.DrawY != null)
             {
                 SadEntity.Position = new Point((int)(DrawX * 16) + _offset, (int)(DrawY * 16) + _offset);
                 SadEntity.Animation.IsDirty = true;
             }
-                
+
             if (values?.DrawGlyphIndex != null)
             {
                 SadEntity.Animation.CurrentFrame[0].Glyph = DrawGlyphIndex;
                 SadEntity.Animation.IsDirty = true;
             }
-                
-            if(values?.DrawFColor != null)
+
+            if (values?.DrawFColor != null)
             {
                 SadEntity.Animation.CurrentFrame[0].Foreground = DrawFColor;
                 SadEntity.Animation.IsDirty = true;
             }
-                
-            if(values?.DrawBColor != null)
+
+            if (values?.DrawBColor != null)
             {
                 SadEntity.Animation.CurrentFrame[0].Background = DrawBColor;
                 SadEntity.Animation.IsDirty = true;
             }
-          
+
         }
 
         public override IComponent Copy()
@@ -127,7 +127,7 @@ namespace ReferenceGame.Components
         }
     }
 
-    public class SadWrapperEdit:IIndexable
+    public class SadWrapperEdit : IIndexable
     {
         public int? X { get; set; }
         public int? Y { get; set; }
@@ -142,7 +142,7 @@ namespace ReferenceGame.Components
         public Color? BColor { get; set; }
         public Color? DrawBColor { get; set; }
 
-        public string IndexKey => $"{X}/{Y}";
+        public string IndexKey => (X == null || Y == null) ? null : $"{X}/{Y}";
 
         public static SadWrapperEdit AnimatePosition(double x, double y)
         {
@@ -178,12 +178,12 @@ namespace ReferenceGame.Components
         {
             return new SadWrapperEdit
             {
-                GlyphIndex = index, 
-                DrawGlyphIndex = index, 
+                GlyphIndex = index,
+                DrawGlyphIndex = index,
                 FColor = fg,
                 DrawFColor = fg,
                 BColor = bg,
-                DrawBColor = bg 
+                DrawBColor = bg
             };
         }
 

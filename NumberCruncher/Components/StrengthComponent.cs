@@ -9,10 +9,12 @@ namespace NumberCruncher.Components
         public override Type MyType => typeof(StrengthComponent);
 
         public int Strength { get; private set; }
+        public int OriginalStrength { get; private set; }
 
         public StrengthComponent(int startStrength)
         {
             Strength = startStrength;
+            OriginalStrength = startStrength;
         }
 
         public override void DoEdit(IntEdit values)

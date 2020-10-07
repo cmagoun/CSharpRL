@@ -1,7 +1,6 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
 using Microsoft.Xna.Framework;
-using ReferenceGame.Components;
 using System;
 using System.Collections.Generic;
 

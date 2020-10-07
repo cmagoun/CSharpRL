@@ -2,7 +2,6 @@
 using NumberCruncher.Components;
 using NumberCruncher.Modes.MainMap;
 using NumberCruncher.Systems;
-using ReferenceGame.Components;
 using SadSharp.Helpers;
 
 namespace NumberCruncher.Behaviors
@@ -36,6 +35,7 @@ namespace NumberCruncher.Behaviors
             if (kb.IsKeyPressed(Keys.D8)) StrengthSystem.ChangeStrength(Program.Player, 8, game.Ecs);
             if (kb.IsKeyPressed(Keys.D9)) StrengthSystem.ChangeStrength(Program.Player, 9, game.Ecs);
 
+            kb.Clear();
             return mresult;
         }
     }

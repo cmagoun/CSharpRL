@@ -1,19 +1,15 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using NumberCruncher.Behaviors;
 using NumberCruncher.Components;
 using NumberCruncher.Systems;
-using ReferenceGame.Components;
 using ReferenceGame.Modes.Entity;
 using RogueSharp;
-using SadConsole.Input;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Keyboard = SadConsole.Input.Keyboard;
@@ -33,15 +29,16 @@ namespace NumberCruncher.Modes.MainMap
         Menu
     }
 
-    public class MainLoopMode : IGameMode
+    public class MainLoopMode : IGameMode, IGameData
     {
         public RGame Game { get; set; }
         public int Turn { get; private set; }
         public int Score { get; private set; }
         public int Level { get; private set; }
         public int RefreshScore { get; private set; }
-        public Map<RogueCell> Terrain;
-        public Ecs Ecs;
+        public Map<RogueCell> Terrain { get; private set; }
+        public Ecs Ecs { get; private set; }
+        public GameConsole MapConsole;
         public Mouse MouseState { get; set; }
         public Keyboard KeyboardState { get; set; }
         private InternalState _state;
@@ -58,16 +55,16 @@ namespace NumberCruncher.Modes.MainMap
             CurrentActor = "";
 
             Ecs = new Ecs("NumberCruncher");
-            Ecs.AddIndex("SadWrapperComponent");
+            Ecs.AddIndex(Program.SadWrapper);
             
             //This order is clunky because I need a reference to the console
             //upon which to place the entities
-            var console = new MainMapConsole();
+            MapConsole = new MainMapConsole();
  
-            CreateArenaMap(Level, console);
+            CreateArenaMap(Level);
 
-            var strConsole = new StrengthConsole(Ecs).Under(console, 1);
-            Game.SetConsoles(console, strConsole);
+            var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
+            Game.SetConsoles(MapConsole, strConsole);
         }
 
         public void ChangeState(InternalState newState)
@@ -88,62 +85,52 @@ namespace NumberCruncher.Modes.MainMap
             }
         }
 
-        public void CreateArenaMap(int level, GameConsole console)
+        public void CreateArenaMap(int level)
         {
             CreateArena();
             //CreateObstacles();
-            CreatePlayer(console);
-            CreateEnemies(level, console);
+            CreatePlayer();
+            CreateEnemies(level);
         }
 
         private void CreateArena()
         {
-            var mapInfo = BasicMapCreator.CreateArena("MAP", new MapParameters { Width = 60, Height = 30 }, Ecs);
+            var param = new MapParameters { Width = Program.MapWidth, Height = Program.MapHeight };
+            var mapInfo = BasicMapCreator.CreateArena("MAP", param, Ecs);
             Terrain = mapInfo.Map;
         }
 
-        private void CreateEnemies(int level, GameConsole console)
+        private void CreateEnemies(int level)
         {
-            var numEnemies = Roller.Next($"2d4+{Math.Min(level-1, 20)}");
+            var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
             for(var index = 0; index < numEnemies; index ++)
             {
-                CreateEnemy(console);
+                CreateEnemy();
             }
         }
 
-        private void CreateEnemy(GameConsole console)
+        private void CreateEnemy()
         {
-            var player = Ecs.Get<SadWrapperComponent>("PLAYER");
+            var player = Ecs.Get<SadWrapperComponent>(Program.Player);
             var possible = Terrain.GetAllCells().Where(c => c.IsWalkable);
 
             var startPoint = new Point(player.X, player.Y);
 
             while (startPoint.MDistance(player.ToXnaPoint()) < 4
-                || Ecs.EntitiesInIndex("SadWrapperComponent", startPoint.ToKey()).Any())
+                || Ecs.EntitiesInIndex(Program.SadWrapper, startPoint.ToKey()).Any())
             {
                 var startSpace = possible.PickRandom();
-                startPoint = new Point(startSpace.X, startSpace.Y);          
+                startPoint = new Point(startSpace.X, startSpace.Y);
             }
 
-            var strength = Roller.Next("2d5-1");
-
-            Ecs.New()
-                .Add(new SadWrapperComponent(console, startPoint.X, startPoint.Y, Glyphs.Digit(strength), Color.Red, Color.Black))
-                .Add(new StrengthComponent(strength))
-                .Add(new ActionPointsComponent(1.0))
-                .Add(new BehaviorComponent(new RandomWalkBehavior()));
+            var strength = Roller.Next("1d9");
+            Entities.Enemy(startPoint.X, startPoint.Y, strength, MapConsole, Ecs);
         }
 
-        private void CreatePlayer(GameConsole console)
+        private void CreatePlayer()
         {
             var startSpace = Terrain.GetAllCells().Where(c => c.IsWalkable).PickRandom();
-            Ecs.New(Program.Player)
-                .Add(new StrengthComponent(1))
-                .Add(new StrengthSlotsComponent())
-                .Add(new SadWrapperComponent(console, startSpace.X, startSpace.Y, Glyphs.Digit(1), Color.CornflowerBlue, Color.White))
-                .Add(new ActionPointsComponent(1.1)) //this is to ensure the player goes first
-                .Add(new BehaviorComponent(new PlayerBehavior()));
-
+            Entities.Player(startSpace.X, startSpace.Y, MapConsole, Ecs);
         }
 
         public void Update(Keyboard kb, Mouse mouse, GameTime time)
@@ -167,6 +154,7 @@ namespace NumberCruncher.Modes.MainMap
 
             }
 
+            CleanUpSystem.CleanUpDeadEnemies(Ecs);
             AnimateSystem.Update(time, Ecs);
         }
 
@@ -214,6 +202,8 @@ namespace NumberCruncher.Modes.MainMap
 
         public void EndOfTurn()
         {
+            StrengthSystem.UnreadySlots(Ecs);
+
             Turn++;
             var ap = Ecs.GetComponents<ActionPointsComponent>();
             foreach(var comp in ap)
@@ -224,5 +214,16 @@ namespace NumberCruncher.Modes.MainMap
             //other stuff???
             ChangeState(InternalState.FindNext);
         }
+    }
+
+    public interface IGameData
+    {
+        public int Turn { get;  }
+        public int Score { get; }
+        public int Level { get;  }
+        public int RefreshScore { get;  }
+        public Ecs Ecs { get; }
+        public Map<RogueCell> Terrain { get; }
+        public string CurrentActor { get; }
     }
 }

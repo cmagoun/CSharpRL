@@ -37,7 +37,8 @@ namespace CsEcs
         {
             if (this is IIndexable oldValues)
             {
-                EditIndex(oldValues, (IIndexable)values);
+                var newIndexable = (IIndexable)values;
+                if(newIndexable.IndexKey != null) EditIndex(oldValues, newIndexable);
             }
         }
 

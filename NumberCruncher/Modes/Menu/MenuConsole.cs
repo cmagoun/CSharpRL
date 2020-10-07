@@ -9,7 +9,7 @@ namespace NumberCruncher.Modes.Menu
     {
         public override string MyKey => "MENU";
 
-        public MenuConsole() : base(Program.Width, Program.Height, 0, 0)
+        public MenuConsole() : base(Program.GameWidth, Program.GameHeight, 0, 0)
         {
             PrintTitle();
             CreateButtons();

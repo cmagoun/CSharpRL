@@ -12,10 +12,8 @@ namespace NumberCruncher.Modes.MainMap
     public class MainMapConsole : GameConsole
     {
         public override string MyKey => "MAIN_MAP";
-        public static int MapWidth = 60;
-        public static int MapHeight = 30;
 
-        public MainMapConsole() : base(MapWidth, MapHeight, 0, 0)
+        public MainMapConsole() : base(Program.MapWidth, Program.MapHeight, 0, 0)
         {
         }
 
