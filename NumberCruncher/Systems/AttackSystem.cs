@@ -1,5 +1,4 @@
 ﻿using CsEcs;
-using CsEcs.SimpleEdits;
 using NumberCruncher.Components;
 using System;
 
@@ -35,6 +34,7 @@ namespace NumberCruncher.Systems
                 if(currentHits < 1)
                 {
                     //YOU ARE DEAD
+                    throw new Exception("YOU ARE DEAD");
 
                 } else
                 {
