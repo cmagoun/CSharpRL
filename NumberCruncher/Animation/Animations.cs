@@ -2,6 +2,7 @@
 using NumberCruncher.Components;
 using ReferenceGame.Modes.Entity;
 using SharpDX.MediaFoundation.DirectX;
+using System.Collections.Generic;
 
 namespace NumberCruncher.Animation
 {
@@ -15,11 +16,23 @@ namespace NumberCruncher.Animation
 
         public static AnimateComponent Death()
         {
+            var animations = new List<IAnimation>
+            {
+                new MakeBackgroundTransparentAnimtation(1000),
+                new FramesAnimation(new[] { Glyphs.Circle, Glyphs.Donut, Glyphs.Asterisk, Glyphs.DotCenter }, 250),
+                new JiggleAnimation(1000, .1)
+            };
+
             return new AnimateComponent(
-                new FramesAnimation(
-                    new[] { Glyphs.Circle, Glyphs.Donut, Glyphs.Asterisk, Glyphs.DotCenter }, 200),
-                    MarkEntityForDeletion);
+                new CompoundAnimation(
+                    animations,
+                    new List<int> { 1 },
+                    new List<int> { 0, 1 },
+                    new List<int> { 0, 1 }),
+                MarkEntityForDeletion);
         }
+
+
 
         public static void MarkEntityForDeletion(AnimateComponent anim)
         {

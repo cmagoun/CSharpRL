@@ -6,6 +6,7 @@ using NumberCruncher.Components;
 using NumberCruncher.Systems;
 using ReferenceGame.Modes.Entity;
 using RogueSharp;
+using SadConsole;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
@@ -136,28 +137,29 @@ namespace NumberCruncher.Modes.MainMap
 
         public void Update(Keyboard kb, Mouse mouse, GameTime time)
         {
+            
             KeyboardState = kb;
             MouseState = mouse;
-
-            Debug.WriteLine(string.Join(',', KeyboardState.KeysPressed.Select(k => k.ToString())));
 
             switch (_state)
             {
                 case InternalState.FindNext:
+                    kb.Clear();
                     FindNextActor();
                     break;
                 case InternalState.PlayerTurn:
                     ResolveTurn();
                     break;
                 case InternalState.EndOfTurn:
+                    kb.Clear();
                     EndOfTurn();
                     break;
-
             }
 
             CleanUpSystem.AnimateDeadEnemies(Ecs);
             AnimateSystem.Update(time, Ecs);
             CleanUpSystem.CleanUpDeadEnemies(Ecs);
+
         }
 
         public void FindNextActor()

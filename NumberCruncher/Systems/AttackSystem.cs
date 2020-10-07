@@ -1,13 +1,15 @@
 ﻿using CsEcs;
 using NumberCruncher.Components;
 using System;
+using System.Diagnostics;
 
 namespace NumberCruncher.Systems
 {
     public static class AttackSystem
     {
         public static MoveResult Attack(string attackerId, string defenderId, Ecs ecs)
-        { 
+        {
+
             return attackerId == Program.Player
                 ? PlayerBattle(defenderId, ecs)
                 : defenderId == Program.Player
@@ -19,6 +21,10 @@ namespace NumberCruncher.Systems
         {
             var player = ecs.Get<StrengthComponent>(Program.Player);
             var enemy = ecs.Get<StrengthComponent>(enemyId);
+
+            //this is
+            var dead = ecs.Get<DeadComponent>(enemyId);
+            if (dead != null) return MoveResult.Blocked;
 
             if(player.Strength >= enemy.Strength)
             {
