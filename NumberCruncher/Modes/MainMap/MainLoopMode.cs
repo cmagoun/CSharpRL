@@ -85,6 +85,7 @@ namespace NumberCruncher.Modes.MainMap
             }
         }
 
+        //probably will move all these out
         public void CreateArenaMap(int level)
         {
             CreateArena();
@@ -154,8 +155,9 @@ namespace NumberCruncher.Modes.MainMap
 
             }
 
-            CleanUpSystem.CleanUpDeadEnemies(Ecs);
+            CleanUpSystem.AnimateDeadEnemies(Ecs);
             AnimateSystem.Update(time, Ecs);
+            CleanUpSystem.CleanUpDeadEnemies(Ecs);
         }
 
         public void FindNextActor()

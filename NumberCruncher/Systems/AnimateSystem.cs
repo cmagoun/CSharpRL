@@ -30,6 +30,7 @@ namespace ReferenceGame.Modes.Entity
 
                     if(!anim.Animations.Any())
                     {
+                        anim?.Callback?.Invoke(anim);
                         ecs.RemoveComponent(anim.EntityId, "AnimateComponent");
                     }
                 }
