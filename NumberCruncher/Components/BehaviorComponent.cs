@@ -2,10 +2,8 @@
 using CsEcs.SimpleEdits;
 using NumberCruncher.Modes.MainMap;
 using NumberCruncher.Systems;
-using SadSharp.MapCreators;
+using SadSharp.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NumberCruncher.Components
 {
@@ -27,12 +25,12 @@ namespace NumberCruncher.Components
 
         public override IComponent Copy()
         {
-            throw new NotImplementedException();
+            return this.DeepClone();
         }
     }
 
     public interface IBehavior
     {
-        MoveResult TakeAction(string entityId, MainLoopMode game);
+        MoveResult TakeAction(string entityId, IGameData data);
     }
 }

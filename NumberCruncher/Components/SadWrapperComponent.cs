@@ -125,6 +125,16 @@ namespace NumberCruncher.Components
         {
             return new Point(X + dx, Y + dy);
         }
+
+        public Vector2 ToVector(float dx = 0, float dy = 0)
+        {
+            return new Vector2((float)X + dx, (float)Y + dy);
+        }
+
+        public RogueSharp.Point ToSharpPoint(int dx = 0, int dy = 0)
+        {
+            return new RogueSharp.Point(X + dx, Y + dy);
+        }
     }
 
     public class SadWrapperEdit : IIndexable

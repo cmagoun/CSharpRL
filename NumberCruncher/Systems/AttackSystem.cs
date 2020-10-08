@@ -22,10 +22,6 @@ namespace NumberCruncher.Systems
             var player = ecs.Get<StrengthComponent>(Program.Player);
             var enemy = ecs.Get<StrengthComponent>(enemyId);
 
-            //this is
-            var dead = ecs.Get<DeadComponent>(enemyId);
-            if (dead != null) return MoveResult.Blocked;
-
             if(player.Strength >= enemy.Strength)
             {
                 //If player >= enemy ==> player takes no damage, enemy is destroyed

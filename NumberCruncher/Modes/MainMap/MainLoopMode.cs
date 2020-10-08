@@ -156,9 +156,9 @@ namespace NumberCruncher.Modes.MainMap
                     break;
             }
 
-            CleanUpSystem.AnimateDeadEnemies(Ecs);
+            AnimateSystem.AnimateDeadEnemies(Ecs);
             AnimateSystem.Update(time, Ecs);
-            CleanUpSystem.CleanUpDeadEnemies(Ecs);
+            CleanUpSystem.RemoveDeletedEntities(Ecs);
 
         }
 
@@ -169,14 +169,18 @@ namespace NumberCruncher.Modes.MainMap
             do
             {
                 CurrentActor = SchedulingSystem.FindNext(Ecs);
+
+                //no one has points, so end of turn
                 if (CurrentActor == null)
                 {
                     ChangeState(InternalState.EndOfTurn);
                     return;
                 }
 
+                //player, so change state to wait for input
                 if (CurrentActor == Program.Player) continue;
 
+                //Do all enemy turns
                 var mresult = MoveResult.Continue;
                 while (mresult?.Status != MoveStatus.Done)
                 {
@@ -229,5 +233,7 @@ namespace NumberCruncher.Modes.MainMap
         public Ecs Ecs { get; }
         public Map<RogueCell> Terrain { get; }
         public string CurrentActor { get; }
+        public Keyboard KeyboardState { get; }
+        public Mouse MouseState { get; }
     }
 }

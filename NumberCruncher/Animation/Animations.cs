@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CsEcs;
+using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
 using ReferenceGame.Modes.Entity;
 using SharpDX.MediaFoundation.DirectX;
@@ -31,6 +32,14 @@ namespace NumberCruncher.Animation
                     new List<int> { 0, 1 }),
                 MarkEntityForDeletion);
         }
+
+        //public static void MakeAware(string entityId, Ecs ecs)
+        //{
+        //    var pos = ecs.Get<SadWrapperComponent>(entityId);
+        //    var exclamation = ecs.New()
+        //        .Add(new SadWrapperComponent())
+
+        //}
 
 
 

@@ -8,7 +8,7 @@ namespace NumberCruncher.Behaviors
 {
     public class RandomWalkBehavior : IBehavior
     {
-        public MoveResult TakeAction(string entityId, MainLoopMode game)
+        public MoveResult TakeAction(string entityId, IGameData game)
         {
             var pos = game.Ecs.Get<SadWrapperComponent>(entityId);
             var mresult = MoveResult.Blocked;
