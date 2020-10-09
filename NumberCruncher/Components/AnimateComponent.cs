@@ -1,12 +1,14 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
+using EasyComponents;
 using Microsoft.Xna.Framework;
+using SadSharp.Helpers;
 using System;
 using System.Collections.Generic;
 
 namespace NumberCruncher.Components
 {
-    public class AnimateComponent : Component<NoEdit>
+    public class AnimateComponent : Component<NoEdit>, IMergable
     {
         public override Type MyType => typeof(AnimateComponent);
         public List<IAnimation> Animations { get; private set; }
@@ -25,7 +27,18 @@ namespace NumberCruncher.Components
 
         public override IComponent Copy()
         {
-            return null;
+            return this.DeepClone();
+        }
+
+        public IComponent Merge(IComponent newComponent)
+        {
+            var newAnimateComponent = newComponent as AnimateComponent;
+            foreach(var animation in newAnimateComponent.Animations)
+            {
+                Animations.Add(animation);
+            }
+
+            return this;
         }
     }
 

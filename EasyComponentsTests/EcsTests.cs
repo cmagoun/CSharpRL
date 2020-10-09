@@ -1,5 +1,6 @@
 using CsEcs;
 using CsEcs.SimpleEdits;
+using EasyComponents;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -345,6 +346,18 @@ namespace Tests
             Assert.AreEqual(1, result1.Count);
             Assert.AreEqual("ITEM_B", result1.Single());
         }
+
+        [Test]
+        public void CanMergeTwoMergableComponents()
+        {
+            _ecs.New("ITEM_SUMMING")
+                .Add(new TestAdder(1));
+
+            _ecs.AddComponent("ITEM_SUMMING", new TestAdder(2));
+            _ecs.AddComponent("ITEM_SUMMING", new TestAdder(3));
+
+            Assert.AreEqual(6, _ecs.Get<TestAdder>("ITEM_SUMMING").Value);
+        }
     }
 
 
@@ -393,6 +406,36 @@ namespace Tests
         public override IComponent Copy()
         {
             return new TestName(Name);
+        }
+    }
+
+    public class TestAdder : Component<IntEdit>, IMergable
+    {
+        public override Type MyType => typeof(TestAdder);
+        public int Value { get; private set; }
+
+        public TestAdder(int value)
+        {
+            Value = value;
+        }
+
+        public override void DoEdit(IntEdit values)
+        {
+            base.DoEdit(values);
+            Value = values?.NewValue ?? Value;
+        }
+
+        public override IComponent Copy()
+        {
+            return new TestAdder(Value);
+        }
+
+        public IComponent Merge(IComponent newComponent)
+        {
+            var newAdder = newComponent as TestAdder;
+            Value = Value + newAdder.Value;
+
+            return this;
         }
     }
 

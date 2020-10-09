@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,10 +29,22 @@ namespace CsEcs
             if (!EntitiesToComponents.ContainsKey(entityId))
                 throw new ArgumentException($"Entity {entityId} does not exist");
 
-            //What to do here... we can theoretically have two animation components on an item at once?
+            ////What to do here... we can theoretically have two animation components on an item at once?
             if (EntitiesToComponents[entityId].ContainsKey(component.CName))
-                //throw new ArgumentException($"Entity {entityId} already contains {component.CName}");
-                return;
+            {
+                var oldComponent = EntitiesToComponents[entityId][component.CName];
+                var mergable = oldComponent as IMergable;
+
+                if (mergable != null)
+                {
+                    EntitiesToComponents[entityId][component.CName] = mergable.Merge(component);
+                    return;
+                } 
+                else
+                {
+                    throw new ArgumentException($"Entity {entityId} already contains {component.CName}");
+                }
+            }
 
             component.MyEcs = this;
             EditComponent(entityId, component);
@@ -127,6 +140,7 @@ namespace CsEcs
 
             component.EntityId = entityId;
 
+            //The component is not on the entity in question, so add it
             if (!EntitiesToComponents[entityId].ContainsKey(component.CName))
             {
                 EntitiesToComponents[entityId].Add(component.CName, component);
@@ -145,10 +159,14 @@ namespace CsEcs
                 }
                 component.OnAdd();
 
-            } else
-            {
+            } 
+            else
+            {            
                 var oldComponent = EntitiesToComponents[entityId][component.CName];
 
+ 
+
+                //remove the old component
                 if (ComponentIndexes.ContainsKey(component.CName))
                 {
                     var index = ComponentIndexes[component.CName];
@@ -157,6 +175,8 @@ namespace CsEcs
                 }
 
                 oldComponent.OnDelete();
+
+                //add the new component
                 EntitiesToComponents[entityId][component.CName] = component;
                 
                 if (ComponentIndexes.ContainsKey(component.CName))
