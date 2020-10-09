@@ -38,7 +38,7 @@ namespace ReferenceGame.Modes.Entity
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.DoEdit(SadWrapperEdit.ChangePosition(_to.X, _to.Y));
+            comp.DoEdit(SadWrapperEdit.AnimatePosition(_to.X, _to.Y));
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
