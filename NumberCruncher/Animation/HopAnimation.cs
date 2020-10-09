@@ -31,7 +31,7 @@ namespace ReferenceGame.Modes.Entity
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.DoEdit(SadWrapperEdit.ChangePosition(comp.X, comp.Y));
+            comp.AnimatePosition(comp.X, comp.Y));
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
@@ -47,11 +47,11 @@ namespace ReferenceGame.Modes.Entity
                 if(_hopping)
                 {
                     _hopping = false;
-                    comp.DoEdit(SadWrapperEdit.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude));
+                    comp.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude);
                 } else
                 {
                     _hopping = true;
-                    comp.DoEdit(SadWrapperEdit.AnimatePosition(comp.DrawX, comp.DrawY + _magnitude));
+                    comp.AnimatePosition(comp.DrawX, comp.DrawY + _magnitude));
                     _numHops++;
                 }
                 

@@ -55,7 +55,7 @@ namespace NumberCruncher.Systems
         public static MoveResult DoMove(string entityId, Point from, Point to, Ecs ecs)
         {
             ecs.Get<SadWrapperComponent>(entityId)
-                .DoEdit(SadWrapperEdit.ChangePositionPendingAnimation(to.X, to.Y));
+                .ChangePositionPendingAnimation(to.X, to.Y));
 
             ecs.AddComponent(
                 entityId,

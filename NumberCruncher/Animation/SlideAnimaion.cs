@@ -38,13 +38,12 @@ namespace ReferenceGame.Modes.Entity
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.DoEdit(SadWrapperEdit.AnimatePosition(_to.X, _to.Y));
+            comp.AnimatePosition(_to.X, _to.Y));
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
         {
-            var edit = SadWrapperEdit.AnimatePosition(_from.X, _from.Y);
-            comp.DoEdit(edit);
+            comp.AnimatePosition(_from.X, _from.Y);
         }
 
         public void Update(GameTime time, SadWrapperComponent comp)
@@ -52,7 +51,7 @@ namespace ReferenceGame.Modes.Entity
             var velocity = new Vector2(_direction.X * _speed, _direction.Y * _speed);
             _current = _current + velocity;
 
-            comp.DoEdit(SadWrapperEdit.AnimatePosition(_current.X, _current.Y));
+            comp.AnimatePosition(_current.X, _current.Y));
         }
     }
 }

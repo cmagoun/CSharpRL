@@ -1,11 +1,9 @@
 ﻿
 using CsEcs;
 using Microsoft.Xna.Framework;
-using SadConsole.Components;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using System;
-using System.Linq;
 
 namespace NumberCruncher.Components
 {
@@ -121,6 +119,7 @@ namespace NumberCruncher.Components
             return this.DeepClone();
         }
 
+        //Helper methods
         public Point ToXnaPoint(int dx = 0, int dy = 0)
         {
             return new Point(X + dx, Y + dy);
@@ -135,6 +134,42 @@ namespace NumberCruncher.Components
         {
             return new RogueSharp.Point(X + dx, Y + dy);
         }
+
+        public void AnimatePosition(double x, double y)
+        {
+            DoEdit(SadWrapperEdit.AnimatePosition(x, y));
+        }
+
+        public void ChangePosition(int x, int y)
+        {
+            DoEdit(SadWrapperEdit.ChangePosition(x, y));
+        }
+
+        public void ChangePositionPendingAnimation(int x, int y)
+        {
+            DoEdit(SadWrapperEdit.ChangePositionPendingAnimation(x, y));
+        }
+
+        public void AnimateColor(Color fg, Color? bg = null)
+        {
+            DoEdit(SadWrapperEdit.AnimateColor(fg, bg));
+        }
+
+        public void ChangeColor(Color fg, Color? bg = null)
+        {
+            DoEdit(SadWrapperEdit.ChangeColor(fg, bg));
+        }
+
+        public void AnimateGlyph(int index, Color? fg = null, Color? bg = null)
+        {
+            DoEdit(SadWrapperEdit.AnimateGlyph(index, fg, bg));
+        }
+
+        public void ChangeGlyph(int index, Color? fg = null, Color? bg = null)
+        {
+            DoEdit(SadWrapperEdit.ChangeGlyph(index, fg, bg));
+        }
+
     }
 
     public class SadWrapperEdit : IIndexable

@@ -17,7 +17,7 @@ namespace NumberCruncher.Systems
             {
                 strComp.DoEdit(new IntEdit(newStrength));
                 var sad = ecs.Get<SadWrapperComponent>(entityId);
-                sad.DoEdit(SadWrapperEdit.ChangeGlyph(Glyphs.Digit(newStrength)));
+                sad.ChangeGlyph(Glyphs.Digit(newStrength)));
             }
         }
 

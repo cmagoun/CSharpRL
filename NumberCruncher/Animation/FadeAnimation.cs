@@ -30,7 +30,7 @@ namespace NumberCruncher.Animation
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            if (_returnToOriginalColor) comp.DoEdit(SadWrapperEdit.ChangeColor(comp.FColor));
+            if (_returnToOriginalColor) comp.ChangeColor(comp.FColor));
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
@@ -52,7 +52,7 @@ namespace NumberCruncher.Animation
 
             var newColor = new Color(_currentR, _currentG, _currentB);
 
-            comp.DoEdit(SadWrapperEdit.AnimateColor(newColor));
+            comp.AnimateColor(newColor));
         }
     }
 }

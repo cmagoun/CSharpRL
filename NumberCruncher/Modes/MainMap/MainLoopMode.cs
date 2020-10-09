@@ -82,7 +82,7 @@ namespace NumberCruncher.Modes.MainMap
             {
                 comp.DoEdit(new IntEdit(newStrength));
                 var sad = Ecs.Get<SadWrapperComponent>(Program.Player);
-                sad.DoEdit(SadWrapperEdit.ChangeGlyph(Glyphs.Digit(newStrength)));
+                sad.ChangeGlyph(Glyphs.Digit(newStrength)));
             }
         }
 
