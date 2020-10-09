@@ -1,12 +1,8 @@
-﻿using CsEcs;
-using CsEcs.SimpleEdits;
+﻿using CsEcs.SimpleEdits;
 using NumberCruncher.Components;
 using NumberCruncher.Modes.MainMap;
-using SadSharp.Game;
 using SadSharp.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NumberCruncher.Systems
 {

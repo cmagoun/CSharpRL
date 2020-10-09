@@ -40,12 +40,12 @@ namespace NumberCruncher.Animation
         public void OnEnd(SadWrapperComponent comp)
         {
             if(_returnToInitialGlyph)
-                comp.AnimateGlyph(comp.GlyphIndex));
+                comp.AnimateGlyph(comp.GlyphIndex);
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
         {
-            comp.AnimateGlyph(_frames[0]));
+            comp.AnimateGlyph(_frames[0]);
         }
 
         public void Update(GameTime time, SadWrapperComponent comp)
@@ -61,7 +61,7 @@ namespace NumberCruncher.Animation
                     _currentFrame = 0;
                     _cycleCount++;
                 }
-                comp.AnimateGlyph(_frames[_currentFrame]));
+                comp.AnimateGlyph(_frames[_currentFrame]);
             }
         }
     }

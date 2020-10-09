@@ -82,7 +82,7 @@ namespace NumberCruncher.Modes.MainMap
             {
                 comp.DoEdit(new IntEdit(newStrength));
                 var sad = Ecs.Get<SadWrapperComponent>(Program.Player);
-                sad.ChangeGlyph(Glyphs.Digit(newStrength)));
+                sad.ChangeGlyph(Glyphs.Digit(newStrength));
             }
         }
 
@@ -104,8 +104,7 @@ namespace NumberCruncher.Modes.MainMap
 
         private void CreateEnemies(int level)
         {
-            var numEnemies = 1;
-            //var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
+            var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
             for(var index = 0; index < numEnemies; index ++)
             {
                 CreateEnemy();

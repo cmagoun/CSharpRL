@@ -31,7 +31,7 @@ namespace ReferenceGame.Modes.Entity
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.AnimatePosition(comp.X, comp.Y));
+            comp.AnimatePosition(comp.X, comp.Y);
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
@@ -51,7 +51,7 @@ namespace ReferenceGame.Modes.Entity
                 } else
                 {
                     _hopping = true;
-                    comp.AnimatePosition(comp.DrawX, comp.DrawY + _magnitude));
+                    comp.AnimatePosition(comp.DrawX, comp.DrawY + _magnitude);
                     _numHops++;
                 }
                 

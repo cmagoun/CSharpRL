@@ -27,7 +27,7 @@ namespace NumberCruncher.Animation
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.AnimatePosition(comp.X, comp.Y));
+            comp.AnimatePosition(comp.X, comp.Y);
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
@@ -38,7 +38,7 @@ namespace NumberCruncher.Animation
         {
             var dx = (Roller.NextD3 - 2) * _speed;
             var dy = (Roller.NextD3 - 2) * _speed;
-            comp.AnimatePosition(comp.DrawX + dx, comp.DrawY + dy));
+            comp.AnimatePosition(comp.DrawX + dx, comp.DrawY + dy);
 
             _currentTime += time.ElapsedGameTime.TotalMilliseconds;
 

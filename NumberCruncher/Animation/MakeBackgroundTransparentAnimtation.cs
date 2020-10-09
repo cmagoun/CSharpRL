@@ -23,12 +23,12 @@ namespace NumberCruncher.Animation
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.AnimateColor(comp.FColor, comp.BColor));
+            comp.AnimateColor(comp.FColor, comp.BColor);
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
         {
-            comp.AnimateColor(comp.FColor, Color.Transparent));
+            comp.AnimateColor(comp.FColor, Color.Transparent);
         }
 
         public void Update(GameTime time, SadWrapperComponent comp)

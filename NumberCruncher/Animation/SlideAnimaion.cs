@@ -38,7 +38,7 @@ namespace ReferenceGame.Modes.Entity
 
         public void OnEnd(SadWrapperComponent comp)
         {
-            comp.AnimatePosition(_to.X, _to.Y));
+            comp.AnimatePosition(_to.X, _to.Y);
         }
 
         public void OnStart(GameTime time, SadWrapperComponent comp)
@@ -51,7 +51,7 @@ namespace ReferenceGame.Modes.Entity
             var velocity = new Vector2(_direction.X * _speed, _direction.Y * _speed);
             _current = _current + velocity;
 
-            comp.AnimatePosition(_current.X, _current.Y));
+            comp.AnimatePosition(_current.X, _current.Y);
         }
     }
 }

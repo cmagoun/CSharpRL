@@ -16,8 +16,6 @@ namespace NumberCruncher.Behaviors
 
             var from = sad.ToXnaPoint();
 
-            if (kb.IsKeyPressed(Keys.Enter)) mresult = MoveResult.Done();
-
             if (kb.IsKeyPressed(Keys.NumPad8)) mresult = MoveSystem.TryMove(entityId, from, from.North(), data.Ecs, data.Terrain);
             if (kb.IsKeyPressed(Keys.NumPad2)) mresult = MoveSystem.TryMove(entityId, from, from.South(), data.Ecs, data.Terrain);
             if (kb.IsKeyPressed(Keys.NumPad6)) mresult = MoveSystem.TryMove(entityId, from, from.East(), data.Ecs, data.Terrain);
