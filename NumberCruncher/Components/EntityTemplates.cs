@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using NumberCruncher.Behaviors;
 using SadSharp.Game;
+using SadSharp.Helpers;
 
 namespace NumberCruncher.Components
 {
@@ -23,7 +24,7 @@ namespace NumberCruncher.Components
         {
             return ecs.New()
                 .Add(new EnemyComponent())
-                .Add(new SadWrapperComponent(console, x, y, Glyphs.Digit(strength), Color.Red, Color.Black))
+                .Add(new SadWrapperComponent(console, x, y, Glyphs.Digit(strength), Color.Green.Bright(), Color.Black))
                 .Add(new StrengthComponent(strength))
                 .Add(new BumpTriggerComponent(new AttackTrigger()))
                 .Add(new ActionPointsComponent(1.0))

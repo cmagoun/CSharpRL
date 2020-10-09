@@ -4,6 +4,7 @@ using NumberCruncher;
 using NumberCruncher.Animation;
 using NumberCruncher.Components;
 using SadSharp.Game;
+using SadSharp.Helpers;
 using System;
 using System.Linq;
 
@@ -36,9 +37,12 @@ namespace ReferenceGame.Modes.Entity
             foreach(var entityId in entities)
             {
                 var entity = ecs.Get<SadWrapperComponent>(entityId);
+                entity.ChangeColor(Color.Red);
+
+                ecs.AddComponent(entity.EntityId, Animations.Hop());
 
                 var exclaim = ecs.New()
-                    .Add(new SadWrapperComponent(console, entity.X, entity.Y - 1, Glyphs.Exclaim, Color.Red, Color.Transparent))
+                    .Add(new SadWrapperComponent(console, entity.X, entity.Y - 1, Glyphs.Exclaim, Color.Red.Bright(), Color.Transparent))
                     .Add(Animations.FadeToBlack())
                     .Add(new AttachedToComponent(entityId, 0, -1));
 

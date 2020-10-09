@@ -40,6 +40,12 @@ namespace NumberCruncher.Animation
                 MarkEntityForDeletion);
         }
 
+        public static AnimateComponent Hop()
+        {
+            return new AnimateComponent(
+                new HopAnimation(2, 5, .5));
+        }
+
         public static void MarkEntityForDeletion(AnimateComponent anim)
         {
             var ecs = anim.MyEcs;
