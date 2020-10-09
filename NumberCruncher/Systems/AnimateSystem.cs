@@ -40,7 +40,7 @@ namespace ReferenceGame.Modes.Entity
                 var exclaim = ecs.New()
                     .Add(new SadWrapperComponent(console, entity.X, entity.Y - 1, Glyphs.Exclaim, Color.Red, Color.Transparent))
                     .Add(Animations.FadeToBlack())
-                    .Add(new AttachedToComponent(entityId));
+                    .Add(new AttachedToComponent(entityId, 0, -1));
 
                 ecs.RemoveComponent(entityId, "MadeAwareComponent");
             }

@@ -158,6 +158,7 @@ namespace NumberCruncher.Modes.MainMap
 
             AnimateSystem.StartPendingAnimations(Ecs, MapConsole);
             AnimateSystem.Update(time, Ecs);
+            AttachmentSystem.MoveAttachedEntities(Ecs);
             CleanUpSystem.RemoveDeletedEntities(Ecs);
 
         }

@@ -6,22 +6,17 @@ namespace NumberCruncher.Systems
 {
     public static class AttachmentSystem
     {
-        public static void MoveAttachedEntities(string entityId, double oldX, double oldY, double newX, double newY, Ecs ecs)
+        public static void MoveAttachedEntities(Ecs ecs)
         {
-            var toMove = ecs
-                .GetComponents<AttachedToComponent, SadWrapperComponent>()
-                .Where(tup => tup.Item1.ParentEntity == entityId)
-                .Select(tup => tup.Item2)
-                .ToList();
-
-            if (!toMove.Any()) return;
-            
-            var dx = newX - oldX;
-            var dy = newY - oldY;
-
-            foreach(var sad in toMove)
+            var toMove = ecs.GetComponents<AttachedToComponent, SadWrapperComponent>();
+            foreach(var tup in toMove)
             {
-                sad.AnimatePosition(sad.DrawX + dx, sad.DrawY + dy);
+                var attach = tup.Item1;
+                var parent = ecs.Get<SadWrapperComponent>(attach.ParentEntity);
+
+                var sad = tup.Item2;
+                sad.ChangePositionPendingAnimation(parent.X + (int)attach.DeltaX, parent.Y + (int)attach.DeltaY);
+                sad.AnimatePosition(parent.DrawX + attach.DeltaX, parent.DrawY + attach.DeltaY);
             }
         }
 
