@@ -17,7 +17,8 @@ namespace NumberCruncher.Components
                 .Add(new ActionPointsComponent(1.1)) //this is to ensure the player goes first
                 .Add(new BehaviorComponent(new PlayerBehavior()))
                 .Add(new BumpTriggerComponent(new AttackTrigger()))
-                .Add(new HitPointComponent(20));
+                .Add(new HitPointComponent(20))
+                .Add(new ScoreComponent());
         }
 
         public static EntityBuilder Enemy(int x, int y, int strength, GameConsole console, Ecs ecs)

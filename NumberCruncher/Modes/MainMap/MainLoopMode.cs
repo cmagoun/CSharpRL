@@ -65,7 +65,9 @@ namespace NumberCruncher.Modes.MainMap
             CreateArenaMap(Level);
 
             var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
-            Game.SetConsoles(MapConsole, strConsole);
+            var scoreConsole = new ScoreConsole(this).RightOf(MapConsole, 0);
+
+            Game.SetConsoles(MapConsole, strConsole, scoreConsole.WithBorder(Color.Green));
         }
 
         public void ChangeState(InternalState newState)

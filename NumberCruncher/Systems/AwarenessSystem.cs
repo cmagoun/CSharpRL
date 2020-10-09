@@ -13,9 +13,9 @@ namespace NumberCruncher.Systems
         public static Dictionary<int, int> Chances = new Dictionary<int, int>
         {
             {1, 80},
-            {2, 40},
-            {3, 20},
-            {4, 10},
+            {2, 70},
+            {3, 35},
+            {4, 20},
             {5, 10},
             {6, 10},
             {7, 05},

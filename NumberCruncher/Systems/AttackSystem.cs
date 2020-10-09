@@ -60,6 +60,11 @@ namespace NumberCruncher.Systems
             ecs.RemoveComponent(enemyId, "BehaviorComponent");
             ecs.RemoveComponent(enemyId, "BumpTriggerComponent");
             ecs.RemoveComponent(enemyId, "ActionPointsComponent");
+
+            var strength = ecs.Get<StrengthComponent>(enemyId);
+            var score = ecs.Get<ScoreComponent>(Program.Player);
+
+            score.UpdateScore(strength.OriginalStrength);
         }
     }
 }
