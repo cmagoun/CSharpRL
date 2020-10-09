@@ -17,9 +17,12 @@
         public static int Female = 12;
         public static int Music = 13;
 
+        public static int Exclaim = 33;
         public static int Asterisk = 42;
         public static int Plus = 43;
         public static int FSlash = 47;
+
+        public static int Question = 63;
 
         public static int S = 83;
         public static int X = 86;

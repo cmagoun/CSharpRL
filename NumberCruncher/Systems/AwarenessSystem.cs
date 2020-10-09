@@ -1,4 +1,5 @@
 ﻿using CsEcs;
+using CsEcs.SimpleEdits;
 using NumberCruncher.Components;
 using NumberCruncher.Modes.MainMap;
 using SadSharp.Game;
@@ -53,6 +54,7 @@ namespace NumberCruncher.Systems
 
             if(roll <= chance)
             {
+                eaware.DoEdit(new BoolEdit(true));
                 return AwarenessResult.MadeAware;
             } 
             else

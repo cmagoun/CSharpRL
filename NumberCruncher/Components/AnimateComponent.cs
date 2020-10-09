@@ -31,7 +31,7 @@ namespace NumberCruncher.Components
         }
 
         public IComponent Merge(IComponent newComponent)
-        {
+        {    
             var newAnimateComponent = newComponent as AnimateComponent;
             foreach(var animation in newAnimateComponent.Animations)
             {

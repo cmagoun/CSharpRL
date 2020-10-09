@@ -5,6 +5,7 @@ using RogueSharp;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
 
@@ -18,6 +19,7 @@ namespace NumberCruncher.Systems
 
         public static MoveResult TryMove(string entityId, Point from, Point to, Ecs ecs, Map<RogueCell> terrain)
         {
+            Debug.WriteLine($"Moving: {from.X}/{from.Y} -> {to.X}/{to.Y}");
             var onSpace = ecs.EntitiesInIndex(Program.SadWrapper, to.ToKey());
 
             var result = CheckForBlockedSpace(to, terrain)
@@ -52,6 +54,9 @@ namespace NumberCruncher.Systems
 
         public static MoveResult DoMove(string entityId, Point from, Point to, Ecs ecs)
         {
+            ecs.Get<SadWrapperComponent>(entityId)
+                .DoEdit(SadWrapperEdit.ChangePositionPendingAnimation(to.X, to.Y));
+
             ecs.AddComponent(
                 entityId,
                 Animations.Slide(entityId, from, to, .1f));

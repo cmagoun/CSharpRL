@@ -104,7 +104,8 @@ namespace NumberCruncher.Modes.MainMap
 
         private void CreateEnemies(int level)
         {
-            var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
+            var numEnemies = 1;
+            //var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
             for(var index = 0; index < numEnemies; index ++)
             {
                 CreateEnemy();
@@ -148,7 +149,7 @@ namespace NumberCruncher.Modes.MainMap
                     FindNextActor();
                     break;
                 case InternalState.PlayerTurn:
-                    ResolveTurn();
+                    if(Ecs.Not<AnimateComponent>(Program.Player)) ResolveTurn();
                     break;
                 case InternalState.EndOfTurn:
                     kb.Clear();
@@ -156,7 +157,7 @@ namespace NumberCruncher.Modes.MainMap
                     break;
             }
 
-            AnimateSystem.AnimateDeadEnemies(Ecs);
+            AnimateSystem.StartPendingAnimations(Ecs, MapConsole);
             AnimateSystem.Update(time, Ecs);
             CleanUpSystem.RemoveDeletedEntities(Ecs);
 

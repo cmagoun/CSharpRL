@@ -23,11 +23,12 @@ namespace NumberCruncher.Behaviors
 
             if(aware == AwarenessResult.MadeAware)
             {
-                //game.Ecs.AddComponent(entityId, Animations.MadeAware());
+                data.Ecs.AddComponent(entityId, new MadeAwareComponent());
                 _subBehavior = new StalkerBehavior();
-            } else if(aware == AwarenessResult.MadeUnaware)
+            } 
+            else if(aware == AwarenessResult.MadeUnaware)
             {
-                //game.Ecs.AddComponent(entityId, Animations.MadeAware());
+                data.Ecs.AddComponent(entityId, new MadeUnawareComponent());
                 _subBehavior = new RandomWalkBehavior();
             }
 

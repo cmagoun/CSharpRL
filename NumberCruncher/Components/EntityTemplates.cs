@@ -25,9 +25,10 @@ namespace NumberCruncher.Components
                 .Add(new EnemyComponent())
                 .Add(new SadWrapperComponent(console, x, y, Glyphs.Digit(strength), Color.Red, Color.Black))
                 .Add(new StrengthComponent(strength))
-                .Add(new BumpTriggerComponent(new AttackTrigger()));
-                //.Add(new ActionPointsComponent(1.0))
-                //.Add(new BehaviorComponent(new RandomWalkBehavior()));
+                .Add(new BumpTriggerComponent(new AttackTrigger()))
+                .Add(new ActionPointsComponent(1.0))
+                .Add(new BehaviorComponent(new EnemyBehavior()))
+                .Add(new AwarenessComponent());
         }
     }
 }

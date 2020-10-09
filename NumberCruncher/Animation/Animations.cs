@@ -33,6 +33,13 @@ namespace NumberCruncher.Animation
                 MarkEntityForDeletion);
         }
 
+        public static AnimateComponent FadeToBlack()
+        {
+            return new AnimateComponent(
+                new FadeAnimation(20),
+                MarkEntityForDeletion);
+        }
+
         //public static void MakeAware(string entityId, Ecs ecs)
         //{
         //    var pos = ecs.Get<SadWrapperComponent>(entityId);
