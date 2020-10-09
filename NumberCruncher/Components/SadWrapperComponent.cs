@@ -1,6 +1,7 @@
 ﻿
 using CsEcs;
 using Microsoft.Xna.Framework;
+using NumberCruncher.Systems;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using System;
@@ -71,11 +72,15 @@ namespace NumberCruncher.Components
         public override void OnDelete()
         {
             _console.Children.Remove(SadEntity);
+            AttachmentSystem.RemoveAttachedEntities(EntityId, MyEcs);
         }
 
         public override void DoEdit(SadWrapperEdit values)
         {
             base.DoEdit(values);
+
+            var oldDrawX = DrawX;
+            var oldDrawY = DrawY;
 
             X = values?.X ?? X;
             Y = values?.Y ?? Y;
@@ -92,6 +97,8 @@ namespace NumberCruncher.Components
             {
                 SadEntity.Position = new Point((int)(DrawX * 16) + _offset, (int)(DrawY * 16) + _offset);
                 SadEntity.Animation.IsDirty = true;
+
+                AttachmentSystem.MoveAttachedEntities(EntityId, oldDrawX, oldDrawY, DrawX, DrawY, MyEcs);
             }
 
             if (values?.DrawGlyphIndex != null)

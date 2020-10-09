@@ -376,7 +376,7 @@ namespace CsEcs
         {
             if (!EntitiesToComponents.ContainsKey(entityId)) throw new ArgumentException($"Entity {entityId} does not exist");
 
-            var comp = EntitiesToComponents[entityId][componentName];
+            if (!EntitiesToComponents[entityId].TryGetValue(componentName, out var comp)) return;
 
 
             if (ComponentIndexes.ContainsKey(componentName))

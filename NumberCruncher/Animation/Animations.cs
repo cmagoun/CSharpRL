@@ -36,19 +36,9 @@ namespace NumberCruncher.Animation
         public static AnimateComponent FadeToBlack()
         {
             return new AnimateComponent(
-                new FadeAnimation(20),
+                new FadeAnimation(60),
                 MarkEntityForDeletion);
         }
-
-        //public static void MakeAware(string entityId, Ecs ecs)
-        //{
-        //    var pos = ecs.Get<SadWrapperComponent>(entityId);
-        //    var exclamation = ecs.New()
-        //        .Add(new SadWrapperComponent())
-
-        //}
-
-
 
         public static void MarkEntityForDeletion(AnimateComponent anim)
         {

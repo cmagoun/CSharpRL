@@ -42,7 +42,11 @@ namespace NumberCruncher.Behaviors
             //pf.AddObstacles(blocksMove.Select(bm => bm.Item2.ToRogueSharpPoint()));
 
             var notDoors = ecs
-                .GetComponents<BumpTriggerComponent, SadWrapperComponent>();
+                .GetComponents<BumpTriggerComponent, SadWrapperComponent>()
+                .Where(c => 
+                    c.Item2.EntityId != myPos.EntityId && 
+                    c.Item2.EntityId != Program.Player)
+                .ToList();
 
             pf.AddObstacles(notDoors.Select(nd => nd.Item2.ToSharpPoint()));
 

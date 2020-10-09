@@ -201,7 +201,7 @@ namespace NumberCruncher.Modes.MainMap
             if (mresult.Status != MoveStatus.Done) return mresult;
 
             var ap = Ecs.Get<ActionPointsComponent>(CurrentActor);
-            ap.DoEdit(new DoubleEdit(ap.ActionPoints - mresult.Cost));
+            ap?.DoEdit(new DoubleEdit(ap.ActionPoints - mresult.Cost));
 
             ChangeState(InternalState.FindNext);
 

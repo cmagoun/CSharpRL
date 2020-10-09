@@ -9,6 +9,7 @@ namespace NumberCruncher.Systems
     {
         public static MoveResult Attack(string attackerId, string defenderId, Ecs ecs)
         {
+            Debug.WriteLine($"{attackerId} attacks {defenderId}");
 
             return attackerId == Program.Player
                 ? PlayerBattle(defenderId, ecs)
@@ -25,7 +26,7 @@ namespace NumberCruncher.Systems
             if(player.Strength >= enemy.Strength)
             {
                 //If player >= enemy ==> player takes no damage, enemy is destroyed
-                ecs.AddComponent(enemyId, new DeadComponent());      
+                Kill(enemyId, ecs);     
             }
             else
             {
@@ -51,6 +52,14 @@ namespace NumberCruncher.Systems
             ecs.AddComponent(Program.Player, new StrengthUsedComponent());
             
             return MoveResult.Done(MoveSystem.BaseCost);
+        }
+
+        private static void Kill(string enemyId, Ecs ecs)
+        {
+            ecs.AddComponent(enemyId, new DeadComponent());
+            ecs.RemoveComponent(enemyId, "BehaviorComponent");
+            ecs.RemoveComponent(enemyId, "BumpTriggerComponent");
+            ecs.RemoveComponent(enemyId, "ActionPointsComponent");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NumberCruncher.Systems
 
         public static MoveResult TryMove(string entityId, Point from, Point to, Ecs ecs, Map<RogueCell> terrain)
         {
-            Debug.WriteLine($"Moving: {from.X}/{from.Y} -> {to.X}/{to.Y}");
+            //Debug.WriteLine($"Moving: {from.X}/{from.Y} -> {to.X}/{to.Y}");
             var onSpace = ecs.EntitiesInIndex(Program.SadWrapper, to.ToKey());
 
             var result = CheckForBlockedSpace(to, terrain)
