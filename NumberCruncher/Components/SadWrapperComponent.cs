@@ -33,7 +33,7 @@ namespace NumberCruncher.Components
         public SadWrapperComponent(GameConsole con, int x, int y, int glyph, Color? fg = null, Color? bg = null)
         {
             _offset = con.IsBordered
-                ? 16
+                ? Program.FontSize
                 : 0;
 
             _console = con;
@@ -58,7 +58,10 @@ namespace NumberCruncher.Components
 
             SadEntity = new SadConsole.Entities.Entity(FColor, BColor, GlyphIndex);
             SadEntity.UsePixelPositioning = true;
-            SadEntity.Position = new Point((int)(DrawX * 16) + _offset, (int)(DrawY * 16) + _offset);
+
+            SadEntity.Position = new Point(
+                (int)(DrawX * Program.FontSize) + _offset, 
+                (int)(DrawY * Program.FontSize) + _offset);
 
             //SadEntity.Components.Add(new EntityViewSyncComponent());
 

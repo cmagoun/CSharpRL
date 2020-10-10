@@ -1,10 +1,6 @@
-﻿using CsEcs;
-using NumberCruncher.Animation;
-using NumberCruncher.Components;
+﻿using NumberCruncher.Components;
 using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
-using SadSharp.Helpers;
-using System;
 
 namespace NumberCruncher.Behaviors
 {

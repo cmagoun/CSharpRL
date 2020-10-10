@@ -27,7 +27,6 @@ namespace NumberCruncher.Modes.Menu
 
         private void PrintTitle()
         {
-            //Font = Global.FontDefault.Master.GetFont(Font.FontSizes.Two);
             Print(30, 10, "Number  Cruncher");
         }
 

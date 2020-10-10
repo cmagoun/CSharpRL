@@ -1,6 +1,5 @@
-﻿using System;
-using CsEcs;
-using SadSharp.Helpers;
+﻿using CsEcs;
+using System;
 
 namespace NumberCruncher.Components
 {
