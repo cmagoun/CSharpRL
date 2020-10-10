@@ -16,6 +16,8 @@ namespace NumberCruncher
 
         public const string Player = "PLAYER";
         public const string SadWrapper = "SadWrapperComponent";
+        public const int FontSize = 16;
+
         public static RGame Game;
         private static string Font_C64 = "Fonts/C64.font";
 

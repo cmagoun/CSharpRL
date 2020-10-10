@@ -1,7 +1,6 @@
 ﻿
 using CsEcs;
 using Microsoft.Xna.Framework;
-using NumberCruncher.Systems;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using System;
@@ -28,7 +27,6 @@ namespace NumberCruncher.Components
 
         private int _offset;
         private GameConsole _console;
-
 
         public SadWrapperComponent(GameConsole con, int x, int y, int glyph, Color? fg = null, Color? bg = null)
         {
@@ -63,6 +61,7 @@ namespace NumberCruncher.Components
                 (int)(DrawX * Program.FontSize) + _offset, 
                 (int)(DrawY * Program.FontSize) + _offset);
 
+            //When do I need this?
             //SadEntity.Components.Add(new EntityViewSyncComponent());
 
         }
@@ -80,9 +79,6 @@ namespace NumberCruncher.Components
         public override void DoEdit(SadWrapperEdit values)
         {
             base.DoEdit(values);
-
-            var oldDrawX = DrawX;
-            var oldDrawY = DrawY;
 
             X = values?.X ?? X;
             Y = values?.Y ?? Y;
@@ -118,7 +114,6 @@ namespace NumberCruncher.Components
                 SadEntity.Animation.CurrentFrame[0].Background = DrawBColor;
                 SadEntity.Animation.IsDirty = true;
             }
-
         }
 
         public override IComponent Copy()

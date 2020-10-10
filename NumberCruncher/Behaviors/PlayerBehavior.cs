@@ -8,6 +8,8 @@ namespace NumberCruncher.Behaviors
 {
     public class PlayerBehavior : IBehavior
     {
+        //At some point, I need to find a way to limit the keystrokes/time because
+        //sometimes, I seem to get extra inputs where I don't want to
         public MoveResult TakeAction(string entityId, IGameData data)
         {
             var sad = data.Ecs.Get<SadWrapperComponent>(entityId);

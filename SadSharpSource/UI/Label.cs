@@ -22,9 +22,7 @@ namespace SadSharp.Game
             if (param.Font != null) Font = param.Font;
         }
 
-        public Label(string text, ButtonParams param = null) : this(text, 0, 0, param)
-        {
-        }
+        public Label(string text, ButtonParams param = null) : this(text, 0, 0, param){}
 
         //There is a lot of overlap here with Button. We will refactor later.
         public override void Draw(TimeSpan timeElapsed)

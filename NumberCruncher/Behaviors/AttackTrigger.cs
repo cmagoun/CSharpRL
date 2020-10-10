@@ -2,7 +2,6 @@
 using NumberCruncher.Components;
 using NumberCruncher.Systems;
 
-
 namespace NumberCruncher.Behaviors
 {
     public class AttackTrigger : ITrigger

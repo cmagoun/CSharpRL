@@ -1,9 +1,6 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
-using NumberCruncher.Systems;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NumberCruncher.Components
 {

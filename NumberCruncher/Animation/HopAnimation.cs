@@ -34,10 +34,7 @@ namespace ReferenceGame.Modes.Entity
             comp.AnimatePosition(comp.X, comp.Y);
         }
 
-        public void OnStart(GameTime time, SadWrapperComponent comp)
-        {
-   
-        }
+        public void OnStart(GameTime time, SadWrapperComponent comp){}
 
         public void Update(GameTime time, SadWrapperComponent comp)
         {

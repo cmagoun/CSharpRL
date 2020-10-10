@@ -1,5 +1,4 @@
-﻿
-using NumberCruncher.Components;
+﻿using NumberCruncher.Components;
 using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
 using SadSharp.Helpers;
