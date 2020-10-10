@@ -1,5 +1,4 @@
-﻿
-using NumberCruncher.Modes.MainMap;
+﻿using NumberCruncher.Screens.MainMap;
 using SadSharp.Game;
 using System;
 using Button = SadSharp.Game.Button;

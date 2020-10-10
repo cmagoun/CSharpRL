@@ -1,6 +1,6 @@
 ﻿using CsEcs;
 using NumberCruncher.Components;
-using NumberCruncher.Modes.MainMap;
+using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
 using RogueSharp;
 using SadSharp.MapCreators;

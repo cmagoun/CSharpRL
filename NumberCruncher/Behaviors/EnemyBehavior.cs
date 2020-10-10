@@ -1,7 +1,7 @@
 ﻿using CsEcs;
 using NumberCruncher.Animation;
 using NumberCruncher.Components;
-using NumberCruncher.Modes.MainMap;
+using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
 using SadSharp.Helpers;
 using System;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using NumberCruncher.Components;
-using NumberCruncher.Modes.MainMap;
+using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
 using SadSharp.Helpers;
 

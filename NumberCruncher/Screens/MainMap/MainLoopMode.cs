@@ -17,7 +17,7 @@ using Keyboard = SadConsole.Input.Keyboard;
 using Mouse = SadConsole.Input.Mouse;
 using Point = Microsoft.Xna.Framework.Point;
 
-namespace NumberCruncher.Modes.MainMap
+namespace NumberCruncher.Screens.MainMap
 {
     public enum InternalState
     {
@@ -57,11 +57,11 @@ namespace NumberCruncher.Modes.MainMap
 
             Ecs = new Ecs("NumberCruncher");
             Ecs.AddIndex(Program.SadWrapper);
-            
+
             //This order is clunky because I need a reference to the console
             //upon which to place the entities
             MapConsole = new MainMapConsole();
- 
+
             CreateArenaMap(Level);
 
             var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
@@ -79,8 +79,8 @@ namespace NumberCruncher.Modes.MainMap
         {
             var comp = Ecs.Get<StrengthComponent>(Program.Player);
             var slots = Ecs.Get<StrengthSlotsComponent>(Program.Player);
-            
-            if(slots.IsReady(newStrength))
+
+            if (slots.IsReady(newStrength))
             {
                 comp.DoEdit(new IntEdit(newStrength));
                 var sad = Ecs.Get<SadWrapperComponent>(Program.Player);
@@ -106,8 +106,8 @@ namespace NumberCruncher.Modes.MainMap
 
         private void CreateEnemies(int level)
         {
-            var numEnemies = Roller.Next($"3d4+{Math.Min(level-1, 20)}");
-            for(var index = 0; index < numEnemies; index ++)
+            var numEnemies = Roller.Next($"3d4+{Math.Min(level - 1, 20)}");
+            for (var index = 0; index < numEnemies; index++)
             {
                 CreateEnemy();
             }
@@ -139,7 +139,7 @@ namespace NumberCruncher.Modes.MainMap
 
         public void Update(Keyboard kb, Mouse mouse, GameTime time)
         {
-            
+
             KeyboardState = kb;
             MouseState = mouse;
 
@@ -150,7 +150,7 @@ namespace NumberCruncher.Modes.MainMap
                     FindNextActor();
                     break;
                 case InternalState.PlayerTurn:
-                    if(Ecs.Not<AnimateComponent>(Program.Player)) ResolveTurn();
+                    if (Ecs.Not<AnimateComponent>(Program.Player)) ResolveTurn();
                     break;
                 case InternalState.EndOfTurn:
                     kb.Clear();
@@ -217,7 +217,7 @@ namespace NumberCruncher.Modes.MainMap
 
             Turn++;
             var ap = Ecs.GetComponents<ActionPointsComponent>();
-            foreach(var comp in ap)
+            foreach (var comp in ap)
             {
                 comp.DoEdit(new DoubleEdit(comp.ActionPoints + 1.0));
             }
@@ -229,10 +229,10 @@ namespace NumberCruncher.Modes.MainMap
 
     public interface IGameData
     {
-        public int Turn { get;  }
+        public int Turn { get; }
         public int Score { get; }
-        public int Level { get;  }
-        public int RefreshScore { get;  }
+        public int Level { get; }
+        public int RefreshScore { get; }
         public Ecs Ecs { get; }
         public Map<RogueCell> Terrain { get; }
         public string CurrentActor { get; }

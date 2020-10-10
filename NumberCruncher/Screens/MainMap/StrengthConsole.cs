@@ -6,19 +6,19 @@ using SadConsole.Input;
 using SadSharp.Game;
 using System;
 
-namespace NumberCruncher.Modes.MainMap
+namespace NumberCruncher.Screens.MainMap
 {
     public class StrengthConsole : GameConsole
     {
         public override string MyKey => "STRENGTH_CONSOLE";
         public StrengthConsole(Ecs ecs) : base(60, 3, 0, 0)
         {
-            for(var strength = 1; strength < 10; strength++)
+            for (var strength = 1; strength < 10; strength++)
             {
                 var button = new StrengthButton(strength, ecs);
                 button.OnClick += Button_OnClick;
 
-                var x = ((strength - 1) * (button.Width + 1)) + 3;
+                var x = (strength - 1) * (button.Width + 1) + 3;
 
                 button.Position = new Point(x, 0);
                 Children.Add(button);
@@ -41,7 +41,7 @@ namespace NumberCruncher.Modes.MainMap
         public new event StrengthClicked OnClick;
 
         public StrengthButton(int strength, Ecs ecs)
-            :base(strength.ToString(), new ButtonParams { Height = 3, Width = 5, BColor = Color.LightGreen, FColor = Color.Black })
+            : base(strength.ToString(), new ButtonParams { Height = 3, Width = 5, BColor = Color.LightGreen, FColor = Color.Black })
         {
             _strength = strength;
             _ecs = ecs;

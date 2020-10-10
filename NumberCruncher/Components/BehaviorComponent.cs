@@ -1,6 +1,6 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
-using NumberCruncher.Modes.MainMap;
+using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
 using SadSharp.Helpers;
 using System;
