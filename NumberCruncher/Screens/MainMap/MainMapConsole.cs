@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using RogueSharp;
 using SadSharp.Game;
+using SadSharp.Helpers;
 using SadSharp.MapCreators;
 using SharpDX.WIC;
 using System;
@@ -35,7 +36,7 @@ namespace NumberCruncher.Screens.MainMap
                 }
                 else
                 {
-                    SetGlyph(cell.X, cell.Y, Glyphs.DotCenter, Color.DarkGray);
+                    SetGlyph(cell.X, cell.Y, Glyphs.DotCenter, Color.DarkGray.Dim());
                 }
             }
         }
