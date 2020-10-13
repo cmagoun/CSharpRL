@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
 using System;
+using System.Diagnostics;
 
 namespace ReferenceGame.Modes.Entity
 {
@@ -34,7 +35,11 @@ namespace ReferenceGame.Modes.Entity
             comp.AnimatePosition(comp.X, comp.Y);
         }
 
-        public void OnStart(GameTime time, SadWrapperComponent comp){}
+        public void OnStart(GameTime time, SadWrapperComponent comp)
+        {
+            _hopping = true;
+            comp.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude);
+        }
 
         public void Update(GameTime time, SadWrapperComponent comp)
         {
@@ -44,12 +49,13 @@ namespace ReferenceGame.Modes.Entity
                 if(_hopping)
                 {
                     _hopping = false;
-                    comp.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude);
-                } else
-                {
-                    _hopping = true;
                     comp.AnimatePosition(comp.DrawX, comp.DrawY + _magnitude);
                     _numHops++;
+                } 
+                else
+                {
+                    _hopping = true;
+                    comp.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude);     
                 }
                 
                 _currentFrame = 0;

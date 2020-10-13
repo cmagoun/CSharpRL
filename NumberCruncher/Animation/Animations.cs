@@ -43,7 +43,7 @@ namespace NumberCruncher.Animation
         public static AnimateComponent Hop()
         {
             return new AnimateComponent(
-                new HopAnimation(2, 5, .5));
+                new HopAnimation(2, 10, .5));
         }
 
         public static void MarkEntityForDeletion(AnimateComponent anim)
