@@ -17,7 +17,7 @@ namespace NumberCruncher.Components
             _behavior = behavior;
         }
 
-        public MoveResult TakeAction(string entityId, MainLoopMode game)
+        public MoveResult TakeAction(string entityId, IGameData game)
         {
             return _behavior.TakeAction(entityId, game);
         }

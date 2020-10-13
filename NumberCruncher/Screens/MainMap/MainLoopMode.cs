@@ -62,7 +62,9 @@ namespace NumberCruncher.Screens.MainMap
             //upon which to place the entities
             MapConsole = new MainMapConsole();
 
-            CreateArenaMap(Level);
+            //includes side-effects of altering the ECS and putting Entities
+            //on the MapConsole :(
+            Terrain = MapMaker.CreateArenaMap(Level, Ecs, MapConsole);
 
             var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
             var scoreConsole = new ScoreConsole(this).RightOf(MapConsole, 0);
@@ -89,54 +91,7 @@ namespace NumberCruncher.Screens.MainMap
         }
 
         //probably will move all these out
-        public void CreateArenaMap(int level)
-        {
-            CreateArena();
-            //CreateObstacles();
-            CreatePlayer();
-            CreateEnemies(level);
-        }
-
-        private void CreateArena()
-        {
-            var param = new MapParameters { Width = Program.MapWidth, Height = Program.MapHeight };
-            var mapInfo = BasicMapCreator.CreateArena("MAP", param, Ecs);
-            Terrain = mapInfo.Map;
-        }
-
-        private void CreateEnemies(int level)
-        {
-            var numEnemies = Roller.Next($"3d4+{Math.Min(level - 1, 20)}");
-            for (var index = 0; index < numEnemies; index++)
-            {
-                CreateEnemy();
-            }
-        }
-
-        private void CreateEnemy()
-        {
-            var player = Ecs.Get<SadWrapperComponent>(Program.Player);
-            var possible = Terrain.GetAllCells().Where(c => c.IsWalkable);
-
-            var startPoint = new Point(player.X, player.Y);
-
-            while (startPoint.MDistance(player.ToXnaPoint()) < 4
-                || Ecs.EntitiesInIndex(Program.SadWrapper, startPoint.ToKey()).Any())
-            {
-                var startSpace = possible.PickRandom();
-                startPoint = new Point(startSpace.X, startSpace.Y);
-            }
-
-            var strength = Roller.Next("1d9");
-            Entities.Enemy(startPoint.X, startPoint.Y, strength, MapConsole, Ecs);
-        }
-
-        private void CreatePlayer()
-        {
-            var startSpace = Terrain.GetAllCells().Where(c => c.IsWalkable).PickRandom();
-            Entities.Player(startSpace.X, startSpace.Y, MapConsole, Ecs);
-        }
-
+    
         public void Update(Keyboard kb, Mouse mouse, GameTime time)
         {
 
@@ -163,6 +118,23 @@ namespace NumberCruncher.Screens.MainMap
             AttachmentSystem.MoveAttachedEntities(Ecs);
             CleanUpSystem.RemoveDeletedEntities(Ecs);
 
+            CheckForCompletedLevel();
+
+        }
+
+        public void CheckForCompletedLevel()
+        {
+            var enemies = Ecs.GetComponents<EnemyComponent>();
+            if(enemies.Count() == 0)
+            {
+                Level++;
+                Turn++;
+                Terrain = MapMaker.CreateArenaMap(Level, Ecs, MapConsole);
+
+                var playerAp = Ecs.Get<ActionPointsComponent>(Program.Player);
+                playerAp.DoEdit(new DoubleEdit(1.1));
+
+            }
         }
 
         public void FindNextActor()

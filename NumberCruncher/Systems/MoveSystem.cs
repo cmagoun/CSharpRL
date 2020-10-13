@@ -5,7 +5,6 @@ using RogueSharp;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
 

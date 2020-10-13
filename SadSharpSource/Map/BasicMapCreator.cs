@@ -1,6 +1,7 @@
 ﻿using CsEcs;
 using RogueSharp;
 using RogueSharp.MapCreation;
+using SadSharp.Game;
 using System;
 
 namespace SadSharp.MapCreators
@@ -44,7 +45,6 @@ namespace SadSharp.MapCreators
         //contains the map that R# produces, in addition to the various entity objects that we will add
         public Map<RogueCell> Map { get; private set; }
         public Ecs Ecs { get; private set; }
-        //public MapParameters Param { get; private set; }
 
         public MapInfo(string name, Map<RogueCell> map, Ecs ecs, MapParameters p)
         {
