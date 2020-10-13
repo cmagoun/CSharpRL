@@ -7,10 +7,12 @@ namespace NumberCruncher.Behaviors
     public class EnemyBehavior : IBehavior
     {
         private IBehavior _subBehavior;
+        private int _stumbleChance;
 
-        public EnemyBehavior()
+        public EnemyBehavior(int stumbleChance = 8)
         {
             _subBehavior = new RandomWalkBehavior();
+            _stumbleChance = stumbleChance;
         }
 
         public MoveResult TakeAction(string entityId, IGameData data)
@@ -27,6 +29,7 @@ namespace NumberCruncher.Behaviors
                 data.Ecs.AddComponent(entityId, new MadeUnawareComponent());
                 _subBehavior = new RandomWalkBehavior();
             }
+
 
             return _subBehavior.TakeAction(entityId, data);
             

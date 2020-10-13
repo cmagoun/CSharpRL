@@ -19,6 +19,8 @@ namespace NumberCruncher.Screens.MainMap
             if(level == 1) CreatePlayer(ecs, mapConsole, terrain);
 
             CreateObstacles(ecs, terrain);
+            //TODO: Do we need to check for unreachable space?
+
             CreateEnemies(level, ecs, mapConsole, terrain);
 
             return terrain;
@@ -61,7 +63,7 @@ namespace NumberCruncher.Screens.MainMap
         private static void CreateObstacles(Ecs ecs, Map<RogueCell>terrain)
         {
             var player = ecs.Get<SadWrapperComponent>(Program.Player);
-            var num = Roller.Next("2d6");
+            var num = Roller.Next("2d10-2");
 
             for(var index = 0; index < num; index++)
             {

@@ -23,15 +23,11 @@ namespace NumberCruncher
 
         static void Main(string[] args)
         {
-            // Setup the engine and create the main window.
             SadConsole.Game.Create(Font_C64, GameWidth, GameHeight);
 
-            // Hook the start event so we can add consoles to the system.
             SadConsole.Game.OnInitialize = Init;
-
             SadConsole.Game.OnUpdate = Update;
 
-            // Start the game.
             SadConsole.Game.Instance.Run();
             SadConsole.Game.Instance.Dispose();
         }

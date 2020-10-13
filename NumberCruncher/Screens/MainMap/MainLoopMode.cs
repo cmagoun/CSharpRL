@@ -118,8 +118,9 @@ namespace NumberCruncher.Screens.MainMap
             AttachmentSystem.MoveAttachedEntities(Ecs);
             CleanUpSystem.RemoveDeletedEntities(Ecs);
 
+            //This might be map specific later, for now
+            //every map is "kill all"
             CheckForCompletedLevel();
-
         }
 
         public void CheckForCompletedLevel()
@@ -133,7 +134,6 @@ namespace NumberCruncher.Screens.MainMap
 
                 var playerAp = Ecs.Get<ActionPointsComponent>(Program.Player);
                 playerAp.DoEdit(new DoubleEdit(1.1));
-
             }
         }
 
