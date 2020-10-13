@@ -29,7 +29,7 @@ namespace NumberCruncher.Screens.MainMap
             {
                 if (!cell.IsWalkable)
                 {
-                    SetGlyph(cell.X, cell.Y, Glyphs.Filled, Color.White);
+                    SetGlyph(cell.X, cell.Y, Glyphs.Filled, Color.Gray);
                 }
                 else
                 {

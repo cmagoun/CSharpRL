@@ -1,11 +1,11 @@
 ﻿using CsEcs;
-using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
 using RogueSharp;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
 
@@ -16,8 +16,9 @@ namespace NumberCruncher.Screens.MainMap
         public static Map<RogueCell> CreateArenaMap(int level, Ecs ecs, GameConsole mapConsole)
         {
             var terrain = CreateArena(ecs);
-            //CreateObstacles();
             if(level == 1) CreatePlayer(ecs, mapConsole, terrain);
+
+            CreateObstacles(ecs, terrain);
             CreateEnemies(level, ecs, mapConsole, terrain);
 
             return terrain;
@@ -55,6 +56,33 @@ namespace NumberCruncher.Screens.MainMap
 
             var strength = Roller.Next("1d9");
             Entities.Enemy(startPoint.X, startPoint.Y, strength, mapConsole, ecs);
+        }
+
+        private static void CreateObstacles(Ecs ecs, Map<RogueCell>terrain)
+        {
+            var player = ecs.Get<SadWrapperComponent>(Program.Player);
+            var num = Roller.Next("2d6");
+
+            for(var index = 0; index < num; index++)
+            {
+                bool inRec = true;
+                var rec = new List<RogueCell>();
+
+                while (inRec)
+                {
+                    var rw = Roller.Next(3, 10);
+                    var rh = Roller.Next(3, 10);
+
+                    var x = Roller.Next(2, Program.MapWidth - (rw + 1));
+                    var y = Roller.Next(2, Program.MapHeight - (rh + 1));
+
+                    rec = terrain.GetCellsInRectangle(y, x, rw, rh).ToList();
+
+                    inRec = rec.Any(p => p.X == player.X && p.Y == player.Y);
+                }
+
+                rec.ForEach(p => p.IsWalkable = false);
+            }
         }
 
         private static void CreatePlayer(Ecs ecs, GameConsole mapConsole, Map<RogueCell> terrain)
