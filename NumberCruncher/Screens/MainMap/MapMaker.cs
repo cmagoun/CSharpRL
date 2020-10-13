@@ -83,7 +83,7 @@ namespace NumberCruncher.Screens.MainMap
                     inRec = rec.Any(p => p.X == player.X && p.Y == player.Y);
                 }
 
-                rec.ForEach(p => p.IsWalkable = false);
+                rec.ForEach(p => p.SetWall());
             }
         }
 

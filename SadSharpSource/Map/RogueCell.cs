@@ -32,7 +32,6 @@ namespace SadSharp.MapCreators
             IsMobile = true;
         }
 
-
         public RogueCell SetTransparent(bool newValue)
         {
             IsTransparent = newValue;
@@ -42,6 +41,13 @@ namespace SadSharp.MapCreators
         public RogueCell SetWalkable(bool newValue)
         {
             IsWalkable = newValue;
+            return this;
+        }
+
+        public RogueCell SetWall()
+        {
+            IsWalkable = false;
+            IsTransparent = false;
             return this;
         }
 

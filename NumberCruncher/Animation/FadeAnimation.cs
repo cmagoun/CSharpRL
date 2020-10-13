@@ -50,7 +50,7 @@ namespace NumberCruncher.Animation
             _currentB -= _speedB;
             _currentG -= _speedG;
 
-            var newColor = new Color(_currentR, _currentG, _currentB);
+            var newColor = new Color(_currentR/255, _currentG/255, _currentB/255);
 
             comp.AnimateColor(newColor);
         }

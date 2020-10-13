@@ -44,6 +44,7 @@ namespace NumberCruncher.Screens.MainMap
         public Keyboard KeyboardState { get; set; }
         private InternalState _state;
         public string CurrentActor { get; set; }
+        public FieldOfView<RogueCell> CurrentFov { get; private set; }
 
         public void Initialize()
         {
@@ -105,7 +106,11 @@ namespace NumberCruncher.Screens.MainMap
                     FindNextActor();
                     break;
                 case InternalState.PlayerTurn:
-                    if (Ecs.Not<AnimateComponent>(Program.Player)) ResolveTurn();
+                    if (Ecs.Not<AnimateComponent>(Program.Player))
+                    {
+                        var playerMoveResult = ResolveTurn();
+                        if (playerMoveResult.Status == MoveStatus.Done) CurrentFov = FovSystem.UpdatePlayerFov(Ecs, Terrain);
+                    }
                     break;
                 case InternalState.EndOfTurn:
                     kb.Clear();
@@ -210,5 +215,7 @@ namespace NumberCruncher.Screens.MainMap
         public string CurrentActor { get; }
         public Keyboard KeyboardState { get; }
         public Mouse MouseState { get; }
+
+        public FieldOfView<RogueCell> CurrentFov { get; }
     }
 }

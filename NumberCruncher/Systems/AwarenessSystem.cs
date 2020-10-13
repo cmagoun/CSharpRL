@@ -1,8 +1,11 @@
 ﻿using CsEcs.SimpleEdits;
 using NumberCruncher.Components;
 using NumberCruncher.Screens.MainMap;
+using RogueSharp;
 using SadSharp.Helpers;
+using SadSharp.MapCreators;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace NumberCruncher.Systems
 {
@@ -34,28 +37,47 @@ namespace NumberCruncher.Systems
             {20, 01},
         };
 
-        public static AwarenessResult CheckForAwareness(string entityId, IGameData game)
+        public static AwarenessResult CheckForAwareness(string entityId, IGameData data)
         {
-            var eaware = game.Ecs.Get<AwarenessComponent>(entityId);
-            if (eaware.Aware) return AwarenessResult.Aware;
+            var epos = data.Ecs.Get<SadWrapperComponent>(entityId);
+            var eaware = data.Ecs.Get<AwarenessComponent>(entityId);
 
-            var ppos = game.Ecs.Get<SadWrapperComponent>(Program.Player);
-            var epos = game.Ecs.Get<SadWrapperComponent>(entityId);
+            var isInFov = data.CurrentFov.IsInFov(epos.X, epos.Y);
 
-            var distance = ppos.ToXnaPoint().MDistance(epos.ToXnaPoint());
+            if(isInFov)
+            {          
+                if (eaware.Aware) return AwarenessResult.Aware;
 
-            if (distance > 20) return AwarenessResult.Unaware;
-            var chance = Chances[distance];
-            var roll = Roller.NextD100;
+                var ppos = data.Ecs.Get<SadWrapperComponent>(Program.Player);
+                var distance = ppos.ToXnaPoint().MDistance(epos.ToXnaPoint());
 
-            if(roll <= chance)
-            {
-                eaware.DoEdit(new BoolEdit(true));
-                return AwarenessResult.MadeAware;
+                if (distance > 20) return AwarenessResult.Unaware;
+                var chance = Chances[distance];
+                var roll = Roller.NextD100;
+
+                if (roll <= chance)
+                {
+                    eaware.DoEdit(new BoolEdit(true));
+                    return AwarenessResult.MadeAware;
+                }
+                else
+                {
+                    return AwarenessResult.Unaware;
+                }
             } 
-            else
+            else //NOT in FOV
             {
-                return AwarenessResult.Unaware;
+                if (!eaware.Aware) return AwarenessResult.Unaware;
+
+                var roll = Roller.NextD100;
+                if(roll < 8)
+                {
+                    eaware.DoEdit(new BoolEdit(false));
+                    return AwarenessResult.MadeUnaware;
+                } else
+                {
+                    return AwarenessResult.Aware;
+                }
             }
         }
     }

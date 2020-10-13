@@ -52,16 +52,20 @@ namespace ReferenceGame.Modes.Entity
 
         public static void AnimateMakeUnaware(Ecs ecs, GameConsole console)
         {
-            var entities = ecs.EntitiesWith("MadeAwareComponent");
+            var entities = ecs.EntitiesWith("MadeUnawareComponent");
             foreach (var entityId in entities)
             {
                 var entity = ecs.Get<SadWrapperComponent>(entityId);
+                entity.ChangeColor(Color.Green);
+
+                ecs.AddComponent(entity.EntityId, Animations.Hop());
 
                 var question = ecs.New()
                     .Add(new SadWrapperComponent(console, entity.X, entity.Y - 1, Glyphs.Question, Color.Green, Color.Transparent))
-                    .Add(Animations.FadeToBlack());
+                    .Add(Animations.FadeToBlack())
+                    .Add(new AttachedToComponent(entityId, 0, -1));
 
-                ecs.RemoveComponent(entityId, "MadeAwareComponent");
+                ecs.RemoveComponent(entityId, "MadeUnawareComponent");
             }
         }
 

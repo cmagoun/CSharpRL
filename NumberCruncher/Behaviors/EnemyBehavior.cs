@@ -1,38 +1,50 @@
 ﻿using NumberCruncher.Components;
 using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems;
+using SadSharp.Helpers;
 
 namespace NumberCruncher.Behaviors
 {
     public class EnemyBehavior : IBehavior
     {
-        private IBehavior _subBehavior;
         private int _stumbleChance;
 
         public EnemyBehavior(int stumbleChance = 8)
         {
-            _subBehavior = new RandomWalkBehavior();
             _stumbleChance = stumbleChance;
         }
 
         public MoveResult TakeAction(string entityId, IGameData data)
         {
             var aware = AwarenessSystem.CheckForAwareness(entityId, data);
+            var stumbleRoll = Roller.NextD100;
 
-            if(aware == AwarenessResult.MadeAware)
+            switch(aware)
             {
-                data.Ecs.AddComponent(entityId, new MadeAwareComponent());
-                _subBehavior = new StalkerBehavior();
-            } 
-            else if(aware == AwarenessResult.MadeUnaware)
-            {
-                data.Ecs.AddComponent(entityId, new MadeUnawareComponent());
-                _subBehavior = new RandomWalkBehavior();
+                case AwarenessResult.Aware:
+                    if(stumbleRoll <= _stumbleChance)
+                    {
+                        return MoveSystem.TakeRandomMove(entityId, data);
+                    } 
+                    else
+                    {
+                        return MoveSystem.TakeStalkerMove(entityId, data);
+                    }
+
+                case AwarenessResult.MadeAware:
+                    data.Ecs.AddComponent(entityId, new MadeAwareComponent());
+                    return MoveSystem.TakeStalkerMove(entityId, data);
+
+                case AwarenessResult.MadeUnaware:
+                    data.Ecs.AddComponent(entityId, new MadeUnawareComponent());
+                    return MoveSystem.TakeRandomMove(entityId, data);
+
+                case AwarenessResult.Unaware:
+                    return MoveSystem.TakeRandomMove(entityId, data);
+
+                default:
+                    return MoveSystem.TakeRandomMove(entityId, data);
             }
-
-
-            return _subBehavior.TakeAction(entityId, data);
-            
         }
 
  
