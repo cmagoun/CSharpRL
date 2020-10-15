@@ -6,7 +6,7 @@ namespace NumberCruncher.Behaviors
 {
     public class AttackTrigger : ITrigger
     {
-        public MoveResult Activate(string moverId, string triggerId, object data)
+        public MoveResult Activate(string moverId, string triggerId, object data, MoveResult currentResult = null)
         {
             var ecs = (Ecs)data;
             var enemyComps = ecs.GetComponents<EnemyComponent>(moverId, triggerId);

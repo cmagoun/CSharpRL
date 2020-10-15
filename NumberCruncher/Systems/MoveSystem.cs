@@ -29,6 +29,8 @@ namespace NumberCruncher.Systems
 
             result = DoMove(entityId, from, to, ecs);
 
+            result = CheckForStepTrigger(entityId, onSpace, result, ecs);
+
             return result;
         }
 
@@ -50,6 +52,18 @@ namespace NumberCruncher.Systems
                 .FirstOrDefault();
 
             return bumper?.Interaction?.Activate(entity, bumper.EntityId, ecs);
+        }
+
+        private static MoveResult CheckForStepTrigger(string entity, List<string>onSpace, MoveResult currentResult, Ecs ecs)
+        {
+            if (!onSpace.Any()) return currentResult;
+
+            var trigger = ecs
+                .GetComponents<StepTriggerComponent>(onSpace.ToArray())
+                .OrderBy(b => b.Order)
+                .FirstOrDefault();
+
+            return trigger?.Interaction?.Activate(entity, trigger.EntityId, ecs, currentResult);
         }
 
         public static MoveResult DoMove(string entityId, Point from, Point to, Ecs ecs)

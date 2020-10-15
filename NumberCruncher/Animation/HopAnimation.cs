@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using NumberCruncher.Components;
-using System;
-using System.Diagnostics;
 
 namespace ReferenceGame.Modes.Entity
 {
@@ -58,8 +56,7 @@ namespace ReferenceGame.Modes.Entity
                     comp.AnimatePosition(comp.DrawX, comp.DrawY - _magnitude);     
                 }
                 
-                _currentFrame = 0;
-                
+                _currentFrame = 0;                
             }
         }
     }

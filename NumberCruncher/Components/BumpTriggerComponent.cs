@@ -26,9 +26,11 @@ namespace NumberCruncher.Components
         }
     }
 
+
+
     public interface ITrigger
     {
-        MoveResult Activate(string moverId, string triggerId, object data);
+        MoveResult Activate(string moverId, string triggerId, object data, MoveResult currentResult = null);
     }
 
 }
