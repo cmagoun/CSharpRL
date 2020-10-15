@@ -358,6 +358,24 @@ namespace Tests
 
             Assert.AreEqual(6, _ecs.Get<TestAdder>("ITEM_SUMMING").Value);
         }
+
+        [Test]
+        public void NotReturnsEntityWithoutComponent()
+        {
+            _ecs.New("ITEM_WITH")
+                .Add(new TestPosition(1, 1));
+
+            _ecs.New("ITEM_WITHOUT")
+                .Add(new TestName("WITHOUT_1"));
+
+            _ecs.New("ITEM_WITH_BOTH")
+                .Add(new TestPosition(1, 1))
+                .Add(new TestName("WITH_2"));
+
+            Assert.IsFalse(_ecs.Not<TestPosition>("ITEM_WITH"));
+            Assert.IsTrue(_ecs.Not<TestPosition>("ITEM_WITHOUT"));
+            Assert.IsFalse(_ecs.Not<TestPosition>("ITEM_WITH_BOTH"));
+        }
     }
 
 

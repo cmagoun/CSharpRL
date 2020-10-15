@@ -14,8 +14,10 @@ namespace CsEcs
         Ecs MyEcs { get; set; }
         IComponent Copy();
 
-        //I am trying to avoid the need for these by
-        //having no meaningful (game logic) behavior in the components
+        //Currently, the main reason these exist is to allow
+        //us to tie into 3rd party libraries, like SadConsole,
+        //that require us to keep track of which entities are
+        //currently in play.
         void OnAdd();
         void OnDelete();
         //void OnEdit();

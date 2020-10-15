@@ -50,6 +50,18 @@ namespace CsEcs
             EditComponent(entityId, component);
         }
 
+        private void AddComponentToIndex(IComponent component)
+        {
+            if (ComponentIndexes.ContainsKey(component.CName))
+            {
+                var index = ComponentIndexes[component.CName];
+                var indexable = (IIndexable)component;
+                if (!index.ContainsKey(indexable.IndexKey)) index.Add(indexable.IndexKey, new List<string>());
+                index[indexable.IndexKey].Add(component.EntityId);
+            }
+        }
+
+
         public void AddIndex(string indexId)
         {
             if(ComponentIndexes.ContainsKey(indexId)) throw new ArgumentException($"{indexId} already exists");
@@ -148,15 +160,8 @@ namespace CsEcs
                 if (!ComponentsToEntities.ContainsKey(component.CName)) ComponentsToEntities.Add(component.CName, new Dictionary<string, bool>());
                 
                 ComponentsToEntities[component.CName].Add(entityId, true);
+                AddComponentToIndex(component);
 
-                if (ComponentIndexes.ContainsKey(component.CName))
-                {
-                    //There is an index on this component (POSITION for instance)
-                    var index = ComponentIndexes[component.CName];
-                    var indexable = (IIndexable) component;
-                    if (!index.ContainsKey(indexable.IndexKey)) index.Add(indexable.IndexKey, new List<string>());
-                    index[indexable.IndexKey].Add(entityId);
-                }
                 component.OnAdd();
 
             } 
@@ -164,30 +169,21 @@ namespace CsEcs
             {            
                 var oldComponent = EntitiesToComponents[entityId][component.CName];
 
- 
-
                 //remove the old component
-                if (ComponentIndexes.ContainsKey(component.CName))
-                {
-                    var index = ComponentIndexes[component.CName];
-                    var indexable = (IIndexable) oldComponent;
-                    if (index.ContainsKey(indexable.IndexKey)) index[indexable.IndexKey].Remove(entityId);
-                }
-
+                RemoveComponentFromIndex(oldComponent);
                 oldComponent.OnDelete();
 
                 //add the new component
                 EntitiesToComponents[entityId][component.CName] = component;
-                
-                if (ComponentIndexes.ContainsKey(component.CName))
-                {
-                    var index = ComponentIndexes[component.CName];
-                    var indexable = (IIndexable) component;
-                    if(!index.ContainsKey(indexable.IndexKey)) index.Add(indexable.IndexKey, new List<string>());
-                    index[indexable.IndexKey].Add(entityId);
-                }
+                AddComponentToIndex(component);
                 component.OnAdd();
             }
+        }
+
+        public Dictionary<string, IComponent> Entity(string id)
+        {
+            if (!EntitiesToComponents.ContainsKey(id)) return null;
+            return EntitiesToComponents[id];
         }
 
         public List<string> EntitiesInIndex(string componentName, string key)
@@ -212,6 +208,43 @@ namespace CsEcs
                 .Select(x => x.Key)
                 .ToList();
         }
+
+
+        #region Get<T> and GetComponents<T>
+        public T Get<T>(string entityId, string componentName = null)
+        {
+            var key = componentName ?? typeof(T).Name;
+
+            if (!EntitiesToComponents[entityId].ContainsKey(key)) return default(T);
+
+            return (T)EntitiesToComponents[entityId][key];
+        }
+
+        public Tuple<T, U> Get<T, U>(string entityId)
+        {
+            return new Tuple<T, U>(Get<T>(entityId), Get<U>(entityId));
+        }
+
+        public Tuple<T, U, V> Get<T, U, V>(string entityId)
+        {
+            return new Tuple<T, U, V>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId));
+        }
+
+        public Tuple<T, U, V, W> Get<T, U, V, W>(string entityId)
+        {
+            return new Tuple<T, U, V, W>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId), Get<W>(entityId));
+        }
+
+        public Tuple<T, U, V, W, X> Get<T, U, V, W, X>(string entityId)
+        {
+            return new Tuple<T, U, V, W, X>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId), Get<W>(entityId), Get<X>(entityId));
+        }
+
+        public List<IComponent> GetAll(string entityId)
+        {
+            return EntitiesToComponents[entityId].Values.ToList();
+        }
+
 
         public List<T> GetComponents<T>()
         {
@@ -320,53 +353,14 @@ namespace CsEcs
 
             return result;
         }
-     
-        public Dictionary<string, IComponent> Entity(string id)
-        {
-            if (!EntitiesToComponents.ContainsKey(id)) return null;
-            return EntitiesToComponents[id];
-        }
 
-        public T Get<T>(string entityId, string componentName = null)
-        {
-            var key = componentName ?? typeof(T).Name;
-
-            if (!EntitiesToComponents[entityId].ContainsKey(key)) return default(T);
-
-            return (T)EntitiesToComponents[entityId][key];
-        }
-
-        public Tuple<T, U> Get<T, U>(string entityId)
-        {
-            return new Tuple<T, U>(Get<T>(entityId), Get<U>(entityId));
-        }
-
-        public Tuple<T, U, V> Get<T, U, V>(string entityId)
-        {
-            return new Tuple<T, U, V>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId));
-        }
-
-        public Tuple<T, U, V, W> Get<T, U, V, W>(string entityId)
-        {
-            return new Tuple<T, U, V, W>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId), Get<W>(entityId));
-        }
-
-        public Tuple<T, U, V, W, X> Get<T, U, V, W, X>(string entityId)
-        {
-            return new Tuple<T, U, V, W, X>(Get<T>(entityId), Get<U>(entityId), Get<V>(entityId), Get<W>(entityId), Get<X>(entityId));
-        }
-
-        public List<IComponent> GetAll(string entityId)
-        {
-            return EntitiesToComponents[entityId].Values.ToList();
-        }
-
+        #endregion
 
         public bool Not<T>(string entity)
         {
             return Get<T>(entity) == null;
         }
-        
+
         public EntityBuilder New(string id = "")
         {
             return EntityBuilder.New(this, id);
@@ -378,13 +372,7 @@ namespace CsEcs
 
             if (!EntitiesToComponents[entityId].TryGetValue(componentName, out var comp)) return;
 
-
-            if (ComponentIndexes.ContainsKey(componentName))
-            {
-                var index = ComponentIndexes[componentName];
-                var indexable = (IIndexable) comp;
-                if (index.ContainsKey(indexable.IndexKey)) index[indexable.IndexKey].Remove(entityId);
-            }
+            RemoveComponentFromIndex(comp);
 
             comp.OnDelete();
 
@@ -393,13 +381,23 @@ namespace CsEcs
 
             EntitiesToComponents[entityId].Remove(componentName);
             ComponentsToEntities[componentName].Remove(entityId);
-
         }
 
         public void RemoveComponent(string entityId, IComponent component)
         {
             RemoveComponent(entityId, component.CName);
         }
+
+        private void RemoveComponentFromIndex(IComponent component)
+        {
+            if (ComponentIndexes.ContainsKey(component.CName))
+            {
+                var index = ComponentIndexes[component.CName];
+                var indexable = (IIndexable)component;
+                if (index.ContainsKey(indexable.IndexKey)) index[indexable.IndexKey].Remove(component.EntityId);
+            }
+        }
+
     }
 
     public class EntityBuilder {
