@@ -45,6 +45,8 @@ namespace NumberCruncher.Systems
 
         private static MoveResult CheckForBumpTrigger(string entity, List<string>onSpace, Ecs ecs )
         {
+            if (!onSpace.Any()) return MoveResult.Continue;
+
             //only take the first bumper based on order?
             var bumper = ecs
                 .GetComponents<BumpTriggerComponent>(onSpace.ToArray())
