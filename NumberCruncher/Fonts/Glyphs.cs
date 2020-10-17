@@ -1,4 +1,8 @@
-﻿namespace NumberCruncher
+﻿using System;
+using System.Linq;
+using System.Text;
+
+namespace NumberCruncher
 {
     public static class Glyphs
     {
@@ -47,5 +51,15 @@
             return 48 + num;
         }
 
+        public static int Letter(char letter)
+        {
+            return (int)letter;
+        }
+
+        public static int Letter(string key)
+        {
+            if (key.Length > 1) throw new ArgumentException("Letter takes a single character");
+            return Letter(key.First());
+        }
     }
 }

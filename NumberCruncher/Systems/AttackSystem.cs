@@ -42,7 +42,7 @@ namespace NumberCruncher.Systems
                 } else
                 {
                     //If player < enemy ==> player takes difference, enemy is reduced by player str
-                    hp.DoEdit(new HitPointEdit(currentHits));
+                    hp.SetHits(currentHits);
                     StrengthSystem.ChangeStrength(enemyId, enemy.Strength - player.Strength, ecs);
                 }
 

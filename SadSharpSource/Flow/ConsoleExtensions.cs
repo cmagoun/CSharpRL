@@ -6,7 +6,7 @@ namespace SadSharp.Game
     {
         public static GameConsole WithBorder(this GameConsole c, Color? borderColor = null)
         {
-            return new BorderConsole(c);
+            return new BorderConsole(c, borderColor);
         }
 
         public static GameConsole RightOf(this GameConsole c, GameConsole other, int dx, int? dy = null)
@@ -17,7 +17,7 @@ namespace SadSharp.Game
 
         public static GameConsole Under(this GameConsole c, GameConsole other, int dy, int? dx = null)
         {
-            c.Position = new Point(other.X + dx??0, other.Y + other.Height + dy);
+            c.Position = new Point(other.X + (dx??0), other.Y + other.Height + dy);
             return c;
         }
     }

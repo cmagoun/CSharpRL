@@ -1,9 +1,10 @@
 ﻿using CsEcs;
+using CsEcs.SimpleEdits;
 using System;
 
 namespace NumberCruncher.Components
 {
-    public class HitPointComponent : Component<HitPointEdit>
+    public class HitPointComponent : Component<NoEdit>
     {
         public override Type MyType => typeof(HitPointComponent);
         public int MaxHits { get; private set; }
@@ -15,11 +16,14 @@ namespace NumberCruncher.Components
             CurrentHits = current ?? max;
         }
 
-        public override void DoEdit(HitPointEdit values)
+        public void UpdateHits(int change)
         {
-            base.DoEdit(values);
-            CurrentHits = values.CurrentHits ?? CurrentHits;
-            MaxHits = values.MaxHits ?? MaxHits;
+            CurrentHits = Math.Min(MaxHits, CurrentHits + change);
+        }
+
+        public void SetHits(int newValue)
+        {
+            CurrentHits = Math.Min(MaxHits, newValue);
         }
 
 

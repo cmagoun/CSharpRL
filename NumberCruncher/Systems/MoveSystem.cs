@@ -65,7 +65,7 @@ namespace NumberCruncher.Systems
                 .OrderBy(b => b.Order)
                 .FirstOrDefault();
 
-            return trigger?.Interaction?.Activate(entity, trigger.EntityId, ecs, currentResult);
+            return trigger?.Interaction?.Activate(entity, trigger.EntityId, ecs, currentResult) ?? currentResult;
         }
 
         public static MoveResult DoMove(string entityId, Point from, Point to, Ecs ecs)

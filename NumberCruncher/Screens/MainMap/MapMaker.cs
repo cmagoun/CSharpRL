@@ -1,5 +1,6 @@
 ﻿using CsEcs;
 using NumberCruncher.Components;
+using NumberCruncher.Systems;
 using RogueSharp;
 using SadSharp.Game;
 using SadSharp.Helpers;
@@ -20,6 +21,8 @@ namespace NumberCruncher.Screens.MainMap
 
             CreateObstacles(ecs, terrain);
             //TODO: Do we need to check for unreachable space?
+
+            CreateItems(ecs, mapConsole, terrain);
 
             CreateEnemies(level, ecs, mapConsole, terrain);
 
@@ -58,6 +61,34 @@ namespace NumberCruncher.Screens.MainMap
 
             var strength = Roller.Next("1d9");
             Entities.Enemy(startPoint.X, startPoint.Y, strength, mapConsole, ecs);
+        }
+
+        private static void CreateItems(Ecs ecs, GameConsole mapConsole, Map<RogueCell>terrain)
+        {
+            var numItems = Roller.Next("2d4-2");
+            for(var index = 0; index < numItems; index++)
+            {
+                CreateItem(ecs, mapConsole, terrain);
+            }
+        }
+
+        private static void CreateItem(Ecs ecs, GameConsole mapConsole, Map<RogueCell>terrain)
+        {
+            var player = ecs.Get<SadWrapperComponent>(Program.Player);
+            var possible = terrain.GetAllCells().Where(c => c.IsWalkable);
+
+            var startPoint = new Point(player.X, player.Y);
+
+            while (startPoint.MDistance(player.ToXnaPoint()) < 4
+                || ecs.EntitiesInIndex(Program.SadWrapper, startPoint.ToKey()).Any())
+            {
+                var startSpace = possible.PickRandom();
+                startPoint = new Point(startSpace.X, startSpace.Y);
+            }
+
+            var item = ItemSystem.AllItems.PickRandom();
+            Entities.Item(startPoint.X, startPoint.Y, item.Value, mapConsole, ecs);
+            
         }
 
         private static void CreateObstacles(Ecs ecs, Map<RogueCell>terrain)

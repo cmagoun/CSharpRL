@@ -69,8 +69,13 @@ namespace NumberCruncher.Screens.MainMap
 
             var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
             var scoreConsole = new ScoreConsole(this).RightOf(MapConsole, 0);
+            var inventoryConsole = new InventoryConsole(this).Under(scoreConsole, 2);
 
-            Game.SetConsoles(MapConsole, strConsole, scoreConsole.WithBorder(Color.Green));
+            Game.SetConsoles(
+                MapConsole, 
+                strConsole, 
+                scoreConsole.WithBorder(Color.Green), 
+                inventoryConsole.WithBorder(Color.Green));
         }
 
         public void ChangeState(InternalState newState)
