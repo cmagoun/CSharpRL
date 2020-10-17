@@ -1,21 +1,16 @@
 ﻿using CsEcs;
 using CsEcs.SimpleEdits;
 using Microsoft.Xna.Framework;
-using NumberCruncher.Behaviors;
 using NumberCruncher.Components;
 using NumberCruncher.Systems;
 using ReferenceGame.Modes.Entity;
 using RogueSharp;
-using SadConsole;
 using SadSharp.Game;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
-using System;
-using System.Diagnostics;
 using System.Linq;
 using Keyboard = SadConsole.Input.Keyboard;
 using Mouse = SadConsole.Input.Mouse;
-using Point = Microsoft.Xna.Framework.Point;
 
 namespace NumberCruncher.Screens.MainMap
 {
@@ -69,6 +64,9 @@ namespace NumberCruncher.Screens.MainMap
 
             var strConsole = new StrengthConsole(Ecs).Under(MapConsole, 1);
             var scoreConsole = new ScoreConsole(this).RightOf(MapConsole, 0);
+
+            //this is a little wonky because we are adding border after calculating position
+            //Should really be 0 under, but has to be 2 because of the borders
             var inventoryConsole = new InventoryConsole(this).Under(scoreConsole, 2);
 
             Game.SetConsoles(
