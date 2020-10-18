@@ -86,7 +86,7 @@ namespace NumberCruncher.Screens.MainMap
                 startPoint = new Point(startSpace.X, startSpace.Y);
             }
 
-            var item = ItemSystem.AllItems.PickRandom();
+            var item = PowerSystem.AllItems.PickRandom();
             Entities.Item(startPoint.X, startPoint.Y, item.Value, mapConsole, ecs);
             
         }

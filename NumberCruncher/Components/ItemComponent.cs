@@ -8,9 +8,9 @@ namespace NumberCruncher.Components
     public class ItemComponent : Component<NoEdit>
     {
         public override Type MyType => typeof(ItemComponent);
-        public InventoryItem Item { get; private set; }
+        public Powerup Item { get; private set; }
 
-        public ItemComponent(InventoryItem item)
+        public ItemComponent(Powerup item)
         {
             Item = item;
         }

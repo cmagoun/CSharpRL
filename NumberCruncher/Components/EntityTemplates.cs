@@ -35,7 +35,7 @@ namespace NumberCruncher.Components
                 .Add(new AwarenessComponent());
         }
 
-        public static EntityBuilder Item(int x, int y, InventoryItem item, GameConsole console, Ecs ecs)
+        public static EntityBuilder Item(int x, int y, Powerup item, GameConsole console, Ecs ecs)
         {
             return ecs.New()
                 .Add(new SadWrapperComponent(console, x, y, Glyphs.Letter(item.Key), Color.BlueViolet.Bright(), Color.Transparent))

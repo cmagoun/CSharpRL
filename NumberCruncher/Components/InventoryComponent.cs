@@ -10,11 +10,11 @@ namespace NumberCruncher.Components
     public class InventoryComponent : Component<NoEdit>
     {
         public override Type MyType => typeof(InventoryComponent);
-        public Dictionary<string, InventoryItem> Items { get; private set; }
+        public Dictionary<string, Powerup> Items { get; private set; }
 
         public InventoryComponent()
         {
-            Items = new Dictionary<string, InventoryItem>();
+            Items = new Dictionary<string, Powerup>();
         }
 
         public override IComponent Copy()

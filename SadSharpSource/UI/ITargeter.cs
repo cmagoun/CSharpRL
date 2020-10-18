@@ -11,10 +11,12 @@ namespace SadSharp.Powers
     public abstract class TargeterConsole : GameConsole, ITargeter
     {
         protected IGameMode Mode;
+        protected object Data;
         public List<object> SelectedTargets { get; }
 
-        protected TargeterConsole(int width, int height, IGameMode mode) : base(width, height, 0, 0)
+        protected TargeterConsole(int width, int height, IGameMode mode, object data) : base(width, height, 0, 0)
         {
+            Data = data;
             Mode = mode;
             SelectedTargets = new List<object>();
         }
