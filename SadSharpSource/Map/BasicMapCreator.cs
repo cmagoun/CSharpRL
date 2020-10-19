@@ -1,7 +1,6 @@
 ﻿using CsEcs;
 using RogueSharp;
 using RogueSharp.MapCreation;
-using SadSharp.Game;
 using System;
 
 namespace SadSharp.MapCreators
@@ -22,7 +21,7 @@ namespace SadSharp.MapCreators
             var mapName = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString() : name;
 
             var strategy = new BorderOnlyMapCreationStrategy<Map<RogueCell>, RogueCell>(param.Width, param.Height);
-            var map = Map.Create(strategy);
+            var map = RogueSharp.Map.Create(strategy);
 
             var mapInfo = new MapInfo(mapName, map, ecs, param);
 

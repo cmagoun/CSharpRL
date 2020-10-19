@@ -19,7 +19,7 @@ namespace NumberCruncher.Behaviors
                 ?? CheckForPowerActivation(entityId, data);
         
             //kb.Clear();
-            return mresult;
+            return mresult ?? MoveResult.Blocked;
         }
 
         public MoveResult CheckForMove(string entityId, IGameData data)
@@ -67,7 +67,7 @@ namespace NumberCruncher.Behaviors
             var key = kb.KeysReleased.Last();
             var inv = data.Ecs.Get<InventoryComponent>(entityId);
 
-            if (inv.Items.TryGetValue(key.Character.ToString(), out var power))
+            if (inv.Items.TryGetValue(key.Character.ToString().ToUpper(), out var power))
             {
                 return PowerSystem.ActivatePower(entityId, power, data);
             }

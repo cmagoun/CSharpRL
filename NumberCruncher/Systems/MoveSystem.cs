@@ -5,6 +5,7 @@ using NumberCruncher.Screens.MainMap;
 using RogueSharp;
 using SadSharp.Helpers;
 using SadSharp.MapCreators;
+using SharpDX;
 using System.Collections.Generic;
 using System.Linq;
 using Point = Microsoft.Xna.Framework.Point;
@@ -28,6 +29,23 @@ namespace NumberCruncher.Systems
             if (result != MoveResult.Continue) return result;
 
             result = DoMove(entityId, from, to, ecs);
+
+            result = CheckForStepTrigger(entityId, onSpace, result, ecs);
+
+            return result;
+        }
+
+        public static MoveResult TryTeleport(string entityId, Point from, Point to, Ecs ecs, Map<RogueCell>terrain)
+        {
+            //This is the same as try move, we can DRY this up in the future
+            var onSpace = ecs.EntitiesInIndex(Program.SadWrapper, to.ToKey());
+
+            var result = CheckForBlockedSpace(to, terrain)
+                ?? CheckForBumpTrigger(entityId, onSpace, ecs);
+
+            if (result != MoveResult.Continue) return result;
+
+            result = DoTeleport(entityId, from, to, ecs);
 
             result = CheckForStepTrigger(entityId, onSpace, result, ecs);
 
@@ -76,6 +94,15 @@ namespace NumberCruncher.Systems
             ecs.AddComponent(
                 entityId,
                 Animations.Slide(entityId, from, to, .1f));
+
+            return MoveResult.Done(BaseCost);
+        }
+
+        public static MoveResult DoTeleport(string entityId, Point from, Point to, Ecs ecs)
+        {
+            //for now instant and no animation
+            ecs.Get<SadWrapperComponent>(entityId)
+                .ChangePosition(to.X, to.Y);
 
             return MoveResult.Done(BaseCost);
         }

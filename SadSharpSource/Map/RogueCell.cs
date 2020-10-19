@@ -1,8 +1,11 @@
-﻿using RogueSharp;
+﻿using Microsoft.Xna.Framework;
+using RogueSharp;
+using SadSharp.Map;
+using System.Diagnostics;
 
 namespace SadSharp.MapCreators
 {
-    public class RogueCell:ICell
+    public class RogueCell:ICell, IPosition
     {
         public bool Equals(ICell other)
         {
@@ -55,6 +58,11 @@ namespace SadSharp.MapCreators
         {
             IsMobile = newValue;
             return this;
+        }
+
+        public Microsoft.Xna.Framework.Point ToXnaPoint()
+        {
+            return new Microsoft.Xna.Framework.Point(X, Y);
         }
     }
 }

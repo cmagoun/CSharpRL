@@ -1,4 +1,5 @@
-﻿using NumberCruncher.Screens.MainMap;
+﻿using NumberCruncher.Components;
+using NumberCruncher.Screens.MainMap;
 using NumberCruncher.Systems.Powerups;
 using SadSharp.Powers;
 using System;
@@ -10,7 +11,8 @@ namespace NumberCruncher.Systems
     {
         public static MoveResult ActivatePower(string entityId, Powerup power, IGameData data)
         {
-            return MoveResult.Done();
+            data.Ecs.Get<InventoryComponent>(entityId).Items.Remove(power.Key);
+            return power.Activate(entityId, data);
         }
 
         public static Dictionary<string, Powerup> AllItems = new Dictionary<string, Powerup>
