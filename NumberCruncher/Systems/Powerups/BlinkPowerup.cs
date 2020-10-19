@@ -1,4 +1,5 @@
 ﻿using NumberCruncher.Components;
+using NumberCruncher.Helpers;
 using NumberCruncher.Screens.MainMap;
 using SadSharp.Helpers;
 using SadSharp.Powers;
@@ -21,9 +22,9 @@ namespace NumberCruncher.Systems.Powerups
 
             var possible = terrain
                 .GetAllCells()
-                .Where(c => c.IsWalkable)
-                .Where(c => c.ToXnaPoint().MDistance(pos.ToXnaPoint()) > 4)
-                .Where(c => !ecs.EntitiesInIndex(Program.SadWrapper, $"{c.X}/{c.Y}").Any())
+                .WhereWalkable()
+                .WithMinDistance(pos.ToXnaPoint(), 5)
+                .WithNoneOnSpace(ecs)
                 .ToList();
 
             var chosen = possible.PickRandom();

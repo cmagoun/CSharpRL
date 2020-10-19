@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using NumberCruncher.Modes.Menu;
 using SadConsole;
 using SadSharp.Game;
