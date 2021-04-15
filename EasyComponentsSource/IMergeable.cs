@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EasyComponents
 {
-    public interface IMergable
+    public interface IMergeable
     {
         IComponent Merge(IComponent newComponent);
     }

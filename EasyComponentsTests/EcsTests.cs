@@ -427,7 +427,7 @@ namespace Tests
         }
     }
 
-    public class TestAdder : Component<IntEdit>, IMergable
+    public class TestAdder : Component<IntEdit>, IMergeable
     {
         public override Type MyType => typeof(TestAdder);
         public int Value { get; private set; }

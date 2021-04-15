@@ -5,7 +5,7 @@ using System;
 
 namespace NumberCruncher.Components
 {
-    public class DeleteComponent : Component<NoEdit>, IMergable
+    public class DeleteComponent : Component<NoEdit>, IMergeable
     {
         public override Type MyType => typeof(DeleteComponent);
 

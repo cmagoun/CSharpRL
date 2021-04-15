@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NumberCruncher.Components
 {
-    public class AnimateComponent : Component<NoEdit>, IMergable
+    public class AnimateComponent : Component<NoEdit>, IMergeable
     {
         public override Type MyType => typeof(AnimateComponent);
         public List<IAnimation> Animations { get; private set; }

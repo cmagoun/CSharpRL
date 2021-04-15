@@ -33,11 +33,11 @@ namespace CsEcs
             if (EntitiesToComponents[entityId].ContainsKey(component.CName))
             {
                 var oldComponent = EntitiesToComponents[entityId][component.CName];
-                var mergable = oldComponent as IMergable;
+                var mergeable = oldComponent as IMergeable;
 
-                if (mergable != null)
+                if (mergeable != null)
                 {
-                    EntitiesToComponents[entityId][component.CName] = mergable.Merge(component);
+                    EntitiesToComponents[entityId][component.CName] = mergeable.Merge(component);
                     return;
                 } 
                 else

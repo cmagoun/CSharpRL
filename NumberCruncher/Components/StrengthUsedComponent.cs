@@ -5,7 +5,7 @@ using System;
 
 namespace NumberCruncher.Components
 {
-    public class StrengthUsedComponent : Component<NoEdit>, IMergable
+    public class StrengthUsedComponent : Component<NoEdit>, IMergeable
     {
         public override Type MyType => typeof(StrengthUsedComponent);
 
