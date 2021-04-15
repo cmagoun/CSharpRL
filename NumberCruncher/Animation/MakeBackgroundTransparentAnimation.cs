@@ -3,14 +3,14 @@ using NumberCruncher.Components;
 
 namespace NumberCruncher.Animation
 {
-    public class MakeBackgroundTransparentAnimtation : IAnimation
+    public class MakeBackgroundTransparentAnimation : IAnimation
     {
         private double _currentTime;
         private double _maxTime;
 
         public bool IsRunning { get; set; }
 
-        public MakeBackgroundTransparentAnimtation(double time)
+        public MakeBackgroundTransparentAnimation(double time)
         {
             _maxTime = time;
             _currentTime = 0;

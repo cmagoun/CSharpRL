@@ -3,7 +3,7 @@ using NumberCruncher.Components;
 
 namespace ReferenceGame.Modes.Entity
 {
-    public class SlideAnimaion : IAnimation
+    public class SlideAnimation : IAnimation
     {
         public bool IsRunning { get; set; }
         private string _entityId;
@@ -14,7 +14,7 @@ namespace ReferenceGame.Modes.Entity
         private Vector2 _end;
         private Vector2 _direction;
 
-        public SlideAnimaion(string entityId, Point from, Point to, float speed)
+        public SlideAnimation(string entityId, Point from, Point to, float speed)
         {
             _speed = speed;
             _entityId = entityId;

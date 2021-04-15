@@ -6,14 +6,14 @@ namespace ReferenceGame.Modes.Entity
 {
     public class WalkAnimation : IAnimation
     {
-        private SlideAnimaion _slide;
+        private SlideAnimation _slide;
         private HopAnimation _hop;
 
         public bool IsRunning { get; set; }
 
         public WalkAnimation(string entityId, Point from, Point to, float speed)
         {
-            _slide = new SlideAnimaion(entityId, from, to, speed);
+            _slide = new SlideAnimation(entityId, from, to, speed);
             _hop = new HopAnimation(10, 2, 0.35);
         }
 
