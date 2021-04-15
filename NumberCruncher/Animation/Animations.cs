@@ -12,14 +12,14 @@ namespace NumberCruncher.Animation
         public static AnimateComponent Slide(string entityId, Point from, Point to, float speed)
         {
             return new AnimateComponent(
-                new SlideAnimaion(entityId, from, to, speed));
+                new SlideAnimation(entityId, from, to, speed));
         }
 
         public static AnimateComponent Death()
         {
             var animations = new List<IAnimation>
             {
-                new MakeBackgroundTransparentAnimtation(1000),
+                new MakeBackgroundTransparentAnimation(1000),
                 new FramesAnimation(new[] { Glyphs.Circle, Glyphs.Donut, Glyphs.Asterisk, Glyphs.DotCenter }, 250),
                 new JiggleAnimation(1000, .1)
             };
