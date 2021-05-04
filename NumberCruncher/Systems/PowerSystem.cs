@@ -29,7 +29,7 @@ namespace NumberCruncher.Systems
         public abstract Func<IGameData, ITargeter> Targeter { get; }
 
 
-        public Powerup(string key, string name, string display)
+        protected Powerup(string key, string name, string display)
         {
             Key = key;
             Name = name;

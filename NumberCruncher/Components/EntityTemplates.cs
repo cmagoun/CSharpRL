@@ -15,7 +15,7 @@ namespace NumberCruncher.Components
                 .Add(new StrengthComponent(1))
                 .Add(new StrengthSlotsComponent())
                 .Add(new SadWrapperComponent(console, x, y, Glyphs.Digit(1), Color.CornflowerBlue, Color.White))
-                .Add(new ActionPointsComponent(1.1)) //this is to ensure the player goes first
+                .Add(new ActionPointsComponent(1.1)) //+0.1 is to ensure the player goes first
                 .Add(new BehaviorComponent(new PlayerBehavior()))
                 .Add(new BumpTriggerComponent(new AttackTrigger()))
                 .Add(new HitPointComponent(20))

@@ -134,7 +134,7 @@ namespace NumberCruncher.Screens.MainMap
         public void CheckForCompletedLevel()
         {
             var enemies = Ecs.GetComponents<EnemyComponent>();
-            if(enemies.Count() == 0)
+            if(!enemies.Any())
             {
                 Level++;
                 Turn++;

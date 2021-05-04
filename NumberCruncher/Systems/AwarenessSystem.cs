@@ -36,6 +36,7 @@ namespace NumberCruncher.Systems
             {19, 01},
             {20, 01},
         };
+        public static int MakeUnawareChance = 8;
 
         public static AwarenessResult CheckForAwareness(string entityId, IGameData data)
         {
@@ -70,11 +71,12 @@ namespace NumberCruncher.Systems
                 if (!eaware.Aware) return AwarenessResult.Unaware;
 
                 var roll = Roller.NextD100;
-                if(roll < 8)
+                if(roll < MakeUnawareChance)
                 {
                     eaware.DoEdit(new BoolEdit(false));
                     return AwarenessResult.MadeUnaware;
-                } else
+                } 
+                else
                 {
                     return AwarenessResult.Aware;
                 }

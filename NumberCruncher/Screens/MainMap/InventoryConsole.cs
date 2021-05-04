@@ -30,7 +30,7 @@ namespace NumberCruncher.Screens.MainMap
             foreach(var item in items)
             {
                 Children.Add(new Label(item.Display, 0, y));
-                y = y + 2;
+                y += 2;
             }
 
             base.Draw(timeElapsed);
